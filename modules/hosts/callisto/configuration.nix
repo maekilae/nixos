@@ -6,11 +6,6 @@
 }: {
   # Define the nixosConfiguration for this host
   flake.nixosConfigurations.callisto = inputs.nixpkgs.lib.nixosSystem {
-    specialArgs = {
-      inherit inputs self;
-      vars = self.vars;
-    };
-
     modules = [
       self.nixosModules.callistoModule
     ];
@@ -19,5 +14,12 @@
     imports = [
       /etc/nix/hardware-configuration.nix
     ];
+    networking = {
+      hostName = "callisto";
+      networkmanager.enable = true;
+    };
+    boot = {
+      loader.systemd-boot.enable = true;
+    };
   };
 }
