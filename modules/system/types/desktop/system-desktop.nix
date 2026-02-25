@@ -15,6 +15,7 @@
       discord
       zed
       spotify
+      terminal
     ];
     fonts.fontconfig.defaultFonts = {
       serif = [ "Ubuntu Sans" ];
