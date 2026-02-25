@@ -1,6 +1,4 @@
 {
-  config,
-  lib,
   inputs,
   self,
   ...
@@ -9,22 +7,62 @@
   perSystem =
     {
       pkgs,
+      lib,
       ...
     }:
     {
       packages.fish =
         (self.wrapperModules.fish.apply {
+          inherit pkgs;
           variables = {
             EDITOR = lib.getExe pkgs.neovim;
-            FISH_GREETING = "";
+            fish_greeting = "";
           };
+          aliases = {
+            ls = "${lib.getExe pkgs.eza} -l --icons";
+            cat = lib.getExe' pkgs.bat "bat"; # Remember the getExe trick!
+            cd = lib.getExe pkgs.zoxide;
+          };
+          interactiveShellInit = # fish
+            ''
+              function fish_prompt --description 'Write out the prompt'
+                      set -l last_status $status
+                      set -l normal (set_color normal)
+                      set -l status_color (set_color brgreen)
+                      set -l cwd_color (set_color $fish_color_cwd)
+                      set -l vcs_color (set_color brpurple)
+                      set -l prompt_status ""
+
+                      # Since we display the prompt on a new line allow the directory names to be longer.
+                      set -q fish_prompt_pwd_dir_length
+                      or set -lx fish_prompt_pwd_dir_length 0
+
+                      # Color the prompt differently when we're root
+                      set -l suffix '❯'
+                      if functions -q fish_is_root_user; and fish_is_root_user
+                              if set -q fish_color_cwd_root
+                                      set cwd_color (set_color $fish_color_cwd_root)
+                              end
+                              set suffix '#'
+                      end
+
+                      # Color the prompt in red on error
+                      if test $last_status -ne 0
+                              set status_color (set_color $fish_color_error)
+                              set prompt_status $status_color "[" $last_status "]" $normal
+                      end
+
+                      echo -s  $cwd_color (prompt_pwd) $vcs_color (fish_vcs_prompt) $normal ' ' $prompt_status
+                      echo -n -s $status_color $suffix ' ' $normal
+              end
+              zoxide init fish | source
+            '';
         }).wrapper;
     };
   flake.wrapperModules.fish = inputs.wrappers.lib.wrapModule (
     {
       config,
       lib,
-      # 1. Remove 'pkgs' from here!
       ...
     }:
     let
@@ -104,7 +142,7 @@
         # We use the wrapper's 'flags' attribute to force fish to source our file on startup.
         # The --init-command flag evaluates the string as fish code.
         flags = {
-          "--init-command" = "source ${configFilePath}";
+          "-C" = "source ${configFilePath}";
         };
         package = config.pkgs.fish;
       };

@@ -9,18 +9,22 @@
       programs.zsh = {
         enable = true;
         # dotDir = "${config.xdg.configHome}/zsh";
-        enableCompletion = true;
+        enableCompletion = false;
       };
 
       programs.bash = {
         enable = true;
-        enableCompletion = true;
+        completion.enable = false;
       };
 
-      programs.fish = {
-        enable = true;
-        package = selfpkgs.fish;
-      };
+      # programs.fish = {
+      #   enable = true;
+      #   package = selfpkgs.fish;
+      # };
+
+      environment.systemPackages = [
+        selfpkgs.fish
+      ];
 
     };
 
