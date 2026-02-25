@@ -4,7 +4,7 @@
   ...
 }:
 {
-  flake.modules.nixos.linux-desktop =
+  flake.modules.nixos.callisto =
     { config, ... }:
     {
       imports =

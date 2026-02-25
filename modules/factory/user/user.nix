@@ -19,10 +19,9 @@
             "wheel"
           ];
           shell = pkgs.zsh;
+          initialPassword = "12345";
         };
         programs.zsh.enable = true;
-
-        initialPassword = "12345";
 
         #home-manager.users."${username}" = {
         #  imports = [

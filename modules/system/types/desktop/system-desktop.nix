@@ -22,6 +22,7 @@
       ];
       modules.dev.enable = true;
       modules.dev.zed.enable = true;
+      modules.browser.vivaldi.enable = false;
       # Set your time zone.
       time.timeZone = "Europe/Stockholm";
 
