@@ -17,13 +17,13 @@
           roboto
           open-sans
           lato
-          ubuntu_font_family
+          ubuntu-classic
           cantarell-fonts
 
           # Internationalization & Emojis
           noto-fonts
           noto-fonts-cjk-sans
-          noto-fonts-emoji
+          noto-fonts-color-emoji
 
           # Nerd Fonts
           nerd-fonts.fira-code

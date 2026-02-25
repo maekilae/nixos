@@ -1,4 +1,4 @@
-{ self, ... }:
+{ self, inputs, ... }:
 {
   flake.modules.nixos.terminal =
     { pkgs, ... }:

@@ -1,12 +1,13 @@
 {
-  flake.modules.nixos.spotify =
+  flake.modules.nixos.tailscale =
     {
       pkgs,
       ...
     }:
     {
       environment.systemPackages = with pkgs; [
-        spotify
+        tailscale
+        tailscale-systray
       ];
 
     };
