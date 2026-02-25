@@ -7,10 +7,10 @@
       ...
     }:
     let
-      cfg = config.my.modules.dev;
+      cfg = config.modules.dev;
     in
     {
-      options.my.modules.dev = {
+      options.modules.dev = {
         enable = lib.mkEnableOption "the core development environment";
         zed.enable = lib.mkEnableOption "the Zed editor integration";
       };

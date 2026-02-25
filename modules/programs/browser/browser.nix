@@ -31,7 +31,11 @@
       ];
 
     in
+
     {
+      imports = with inputs.self.modules.nixos; [
+        vivaldi
+      ];
       environment.systemPackages = [
         (pkgs.wrapFirefox
           inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.zen-browser-unwrapped
@@ -79,6 +83,7 @@
             };
           }
         )
+        pkgs.vivaldi
       ];
     };
 }

@@ -6,7 +6,7 @@
   # expansion of cli system for desktop use
 
   flake.modules.nixos.system-desktop =
-    { pkgs, ... }:
+    { pkgs, self, ... }:
     {
       imports = with inputs.self.modules.nixos; [
         cli-tools
@@ -14,18 +14,14 @@
         gnome
         gaming
         discord
-        zed
         spotify
         terminal
         shell
         fonts
         dev
       ];
-      dev = {
-        enable = true;
-        zed.enable = true;
-      };
-
+      modules.dev.enable = true;
+      modules.dev.zed.enable = true;
       # Set your time zone.
       time.timeZone = "Europe/Stockholm";
 
