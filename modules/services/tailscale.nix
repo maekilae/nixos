@@ -9,6 +9,5 @@
         tailscale
         tailscale-systray
       ];
-
     };
 }
