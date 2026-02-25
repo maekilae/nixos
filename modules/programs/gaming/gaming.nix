@@ -1,44 +1,48 @@
-{inputs,...}:{
-  flake.modules.nixos.gaming = {
-    pkgs,
-    lib,
-    ...
-  }: let
-    inherit (lib) mkDefault;
-  in {
-    hardware.graphics.enable = mkDefault true;
+{ inputs, self, ... }:
+{
+  flake.modules.nixos.gaming =
+    {
+      pkgs,
+      lib,
+      ...
+    }:
+    let
+      inherit (lib) mkDefault;
+    in
+    {
+      hardware.graphics.enable = mkDefault true;
 
-    nixpkgs.overlays = [ inputs.millennium.overlays.default ];
+      nixpkgs.overlays = [ inputs.millennium.overlays.default ];
 
-    programs = {
-      gamemode.enable = true;
-      gamescope.enable = true;
-      steam = {
-        enable = true;
-        extraCompatPackages = with pkgs; [
-          proton-ge-bin
-        ];
-        extraPackages = with pkgs; [
-          SDL2
-          gamescope
-        ];
-        protontricks.enable = true;
-        remotePlay.openFirewall = true;
-        dedicatedServer.openFirewall = true;
-        localNetworkGameTransfers.openFirewall = true;
-        package = pkgs.millennium-steam;
+      programs = {
+        gamemode.enable = true;
+        gamescope.enable = true;
+        steam = {
+          enable = true;
+          extraCompatPackages = with pkgs; [
+            proton-ge-bin
+          ];
+          extraPackages = with pkgs; [
+            SDL2
+            gamescope
+          ];
+          protontricks.enable = true;
+          remotePlay.openFirewall = true;
+          dedicatedServer.openFirewall = true;
+          localNetworkGameTransfers.openFirewall = true;
+          package = pkgs.millennium-steam;
+        };
       };
+
+      environment.systemPackages = with pkgs; [
+        steam-run
+        dxvk
+        gamescope
+        mangohud
+        heroic
+        prismlauncher
+        # config.packages.wowup
+      ];
+
     };
-
-    environment.systemPackages = with pkgs; [
-      steam-run
-      dxvk
-      gamescope
-      mangohud
-      heroic
-      prismlauncher
-
-    ];
-
-  };
 }

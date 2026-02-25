@@ -2,6 +2,7 @@
   self,
   inputs,
   pkgs,
+  lib,
   ...
 }:
 
@@ -27,6 +28,7 @@
             fontWeight = "Bold";
           };
           extraConfig = ''
+            config.default_prog = { '${lib.getExe pkgs.fish}', '-l' }
             config.term = "xterm-256color"
             config.colors = vague.colors()
             config.window_frame = vague.window_frame()
