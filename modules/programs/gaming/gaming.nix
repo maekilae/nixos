@@ -41,7 +41,7 @@
         mangohud
         heroic
         prismlauncher
-        inputs.self.packages.${pkgs.system}.wowup-cf
+        inputs.self.packages.${pkgs.system}.wowup
       ];
 
     };

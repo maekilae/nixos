@@ -1,4 +1,4 @@
-{ self, inputs, ... }:
+{ self, ... }:
 {
   flake.modules.nixos.terminal =
     { pkgs, ... }:
@@ -7,7 +7,6 @@
     in
     {
       environment.systemPackages = [
-        # pkgs.wezterm
         selfpkgs.wezterm
       ];
     };
