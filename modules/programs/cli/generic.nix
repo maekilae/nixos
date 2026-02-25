@@ -3,18 +3,17 @@ let
     { pkgs, ... }:
     {
       environment.systemPackages = with pkgs; [
-	bat
-	eza
-	vim
-	lazygit
-	gh
-	gh-notify
-	zoxide
-	fish
+        bat
+        eza
+        vim
+        lazygit
+        gh
+        gh-notify
+        zoxide
       ];
     };
 in
- {
+{
   flake.modules.nixos.cli-tools = {
     imports = [
       genericPackages

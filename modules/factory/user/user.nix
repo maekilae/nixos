@@ -18,11 +18,11 @@
           extraGroups = lib.optionals isAdmin [
             "wheel"
           ];
-          shell = pkgs.fish;
+          shell = pkgs.zsh;
         };
-        programs.fish.enable = true;
+        programs.zsh.enable = true;
 
-	initialPassword = "12345";
+        initialPassword = "12345";
 
         #home-manager.users."${username}" = {
         #  imports = [
