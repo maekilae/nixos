@@ -1,6 +1,4 @@
 {
-  inputs,
-  pkgs,
   ...
 }:
 {
@@ -13,17 +11,5 @@
 
     programs.dconf.enable = true;
 
-
   };
-
-  #flake.modules.homeManager.gnome = {
-  #  dconf.settings = {
-  #    "org/gnome/desktop/interface" = {
-  #      enable-hot-corners = true;
-  #    };
-  #    "org/nemo/preferences" = {
-  #      confirm-move-to-trash = true;
-  #    };
-  #  };
-  #};
 }

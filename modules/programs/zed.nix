@@ -2,7 +2,6 @@
   flake.modules.nixos.zed =
     {
       pkgs,
-      lib,
       ...
     }:
     {

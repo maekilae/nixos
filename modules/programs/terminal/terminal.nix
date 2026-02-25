@@ -8,6 +8,8 @@
     {
       imports = [ self.wrappers.wezterm ];
       environment.systemPackages = [
+        # pkgs.wezterm
+        selfpkgs.wezterm
       ];
     };
 }

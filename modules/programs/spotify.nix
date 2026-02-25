@@ -1,8 +1,7 @@
 {
-  flake.modules.nixos.music =
+  flake.modules.nixos.spotify =
     {
       pkgs,
-      lib,
       ...
     }:
     {
