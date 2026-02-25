@@ -1,13 +1,13 @@
 { self, ... }:
 {
-  flake.modules.nixos.cli-tools =
+  flake.modules.nixos.terminal =
     { pkgs, ... }:
     let
       selfpkgs = self.packages."${pkgs.system}";
     in
     {
+      imports = [ self.wrappers.wezterm ];
       environment.systemPackages = [
-        selfpkgs.git
       ];
     };
 }

@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.zed =
+  flake.modules.nixos.music =
     {
       pkgs,
       lib,
@@ -8,10 +8,7 @@
     {
       programs.nix-ld.enable = true;
       environment.systemPackages = with pkgs; [
-        zed-editor
-        alejandra
-        nil
-        nixd
+        spotify
       ];
 
     };

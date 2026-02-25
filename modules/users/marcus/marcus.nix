@@ -9,10 +9,14 @@
     {
       nixos.marcus = {
         imports = with self.modules.nixos; [
-          # developmentEnvironment
         ];
         users.users.marcus = {
-          extraGroups = ["wheel" "networkmanager" "power" "audio"];
+          extraGroups = [
+            "wheel"
+            "networkmanager"
+            "power"
+            "audio"
+          ];
         };
       };
 
@@ -23,6 +27,6 @@
         ];
       };
 
-          }
+    }
   ];
 }
