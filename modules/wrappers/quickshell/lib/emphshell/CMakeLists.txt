@@ -11,8 +11,8 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(Qalculate IMPORTED_TARGET libqalculate REQUIRED)
 pkg_check_modules(Pipewire IMPORTED_TARGET libpipewire-0.3 REQUIRED)
 
-set(INSTALL_QMLDIR "usr/lib/qt6/qml" CACHE STRING "QML install dir")
-set(INSTALL_LIBDIR "usr/lib/emphshell" CACHE STRING "Library install dir")
+set(INSTALL_QMLDIR "lib/qt6/qml" CACHE STRING "QML install dir")
+set(INSTALL_LIBDIR "lib" CACHE STRING "Library install dir")
 
 set(QT_QML_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/qml")
 qt_standard_project_setup(REQUIRES 6.9)

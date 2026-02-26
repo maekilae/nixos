@@ -3,7 +3,8 @@
 
 #include <qobject.h>
 #include <qqmlintegration.h>
-#include <qt6/QtCore/qtypes.h>
+// #include <QtCore/qtypes.h> //<qt6/QtCore/qtypes.h>
+#include <qtypes.h>
 #include <qtmetamacros.h>
 #include <qtypes.h>
 

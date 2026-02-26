@@ -7,9 +7,9 @@
 #include <qlist.h>
 #include <qsqldatabase.h>
 #include <qsqlquery.h>
-#include <qt6/QtCore/qlist.h>
-#include <qt6/QtCore/qtypes.h>
-#include <qt6/QtQml/qqmllist.h>
+#include <qlist.h>
+#include <qqmllist.h>
+#include <qtypes.h>
 #include <quuid.h>
 #include <tuple>
 
