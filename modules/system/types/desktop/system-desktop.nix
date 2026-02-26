@@ -1,15 +1,20 @@
 {
   inputs,
+  self,
   ...
 }:
+
 {
   # expansion of cli system for desktop use
 
   flake.modules.nixos.system-desktop =
-    { pkgs, self, ... }:
+    { pkgs, ... }:
+    let
+      selfpkgs = self.packages."${pkgs.system}";
+    in
     {
       imports = with inputs.self.modules.nixos; [
-        # cli
+        # cli # Added with dev
         browser
         gnome
         gaming
@@ -19,10 +24,18 @@
         shell
         fonts
         dev
+        tailscale
       ];
       modules.dev.enable = true;
       modules.dev.zed.enable = true;
       modules.browser.vivaldi.enable = false;
+
+      environment.systemPackages = with inputs.self.packages."${pkgs.system}"; [
+        quickshell
+      ];
+
+      programs.niri.enable = true;
+      programs.niri.package = selfpkgs.niri;
       # Set your time zone.
       time.timeZone = "Europe/Stockholm";
 

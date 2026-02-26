@@ -121,13 +121,13 @@ in
                 }
               );
 
-              "Mod+d".spawn-sh = self.mkWhichKeyExe pkgs [
-                {
-                  key = "f";
-                  desc = "Zen";
-                  cmd = "zen-browser";
-                }
-              ];
+              # "Mod+d".spawn-sh = self.mkWhichKeyExe pkgs [
+              #   {
+              #     key = "f";
+              #     desc = "Zen";
+              #     cmd = "zen-browser";
+              #   }
+              # ];
             };
 
             layout = {
@@ -135,7 +135,7 @@ in
 
               focus-ring = {
                 width = 2;
-                active-color = "#${self.themeNoHash.base09}";
+                # active-color = "#${self.themeNoHash.base09}";
               };
             };
 
@@ -158,10 +158,9 @@ in
                 "w9" = settings;
               };
 
-            xwayland-satellite.path = getExe pkgs.xwayland-satellite;
+            # xwayland-satellite.path = getExe pkgs.xwayland-satellite;
 
             spawn-at-startup = [
-              (builtins.toString (getExe self'.packages.start-noctalia-shell))
             ];
           };
         }).wrapper;
