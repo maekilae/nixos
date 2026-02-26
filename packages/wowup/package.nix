@@ -22,7 +22,6 @@ let
     # Optional: Add required dependencies that the AppImage might be missing
     extraPkgs =
       pkgs: with pkgs; [
-        # e.g., libsecret, xorg.libxkbfile
       ];
   };
 

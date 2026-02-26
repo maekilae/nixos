@@ -10,7 +10,7 @@
   flake.modules.nixos.system-desktop =
     { pkgs, ... }:
     let
-      selfpkgs = self.packages."${pkgs.system}";
+      selfpkgs = self.packages."${pkgs.stdenv.hostPlatform.system}";
     in
     {
       imports = with inputs.self.modules.nixos; [
@@ -30,7 +30,7 @@
       modules.dev.zed.enable = true;
       modules.browser.vivaldi.enable = false;
 
-      environment.systemPackages = with inputs.self.packages."${pkgs.system}"; [
+      environment.systemPackages = with inputs.self.packages."${pkgs.stdenv.hostPlatform.system}"; [
         quickshell
       ];
 

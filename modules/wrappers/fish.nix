@@ -22,6 +22,9 @@
             ls = "${lib.getExe pkgs.eza} -l --icons";
             cat = lib.getExe' pkgs.bat "bat"; # Remember the getExe trick!
             cd = "z";
+            nv = "${lib.getExe pkgs.neovim}";
+            zz = "${lib.getExe pkgs.zed-editor} ./";
+            rg = "${lib.getExe pkgs.ripgrep} --hidden";
           };
           interactiveShellInit = # fish
             ''
@@ -56,6 +59,7 @@
                       echo -n -s $status_color $suffix ' ' $normal
               end
               ${lib.getExe pkgs.zoxide} init fish | source
+              direnv hook fish | source
             '';
         }).wrapper;
     };

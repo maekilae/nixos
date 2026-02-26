@@ -120,14 +120,9 @@ in
                   '';
                 }
               );
+              "Mod+Q".spawn = getExe pkgs.wezterm;
+              "Mod+B".spawn = getExe inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
-              # "Mod+d".spawn-sh = self.mkWhichKeyExe pkgs [
-              #   {
-              #     key = "f";
-              #     desc = "Zen";
-              #     cmd = "zen-browser";
-              #   }
-              # ];
             };
 
             layout = {
@@ -161,6 +156,7 @@ in
             # xwayland-satellite.path = getExe pkgs.xwayland-satellite;
 
             spawn-at-startup = [
+              (builtins.toString (getExe self.packages.${pkgs.stdenv.hostPlatform.system}.quickshell))
             ];
           };
         }).wrapper;

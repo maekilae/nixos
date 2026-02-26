@@ -13,7 +13,7 @@
       ...
     }:
     let
-      selfpkgs = self.packages."${pkgs.system}";
+      selfpkgs = self.packages."${pkgs.stdenv.hostPlatform.system}";
     in
     {
       # packages.wezterm = self'.packages.wezterm;

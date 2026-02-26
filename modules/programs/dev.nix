@@ -30,6 +30,7 @@
               nil
               nixd
             ];
+            programs.direnv.enable = true;
           }
 
           # Zed-specific configuration (applied if my.modules.dev.zed.enable = true)

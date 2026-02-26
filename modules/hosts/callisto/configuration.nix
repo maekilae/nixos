@@ -8,23 +8,19 @@
       system-desktop
       systemd-boot
       bluetooth
+      firmware
     ];
     networking = {
-	hostName = "callisto";
-	networkmanager.enable= true;
+      hostName = "callisto";
+      networkmanager.enable = true;
     };
     nixpkgs.config.allowUnfree = true;
 
-    hardware = {
-      enableAllFirmware = true;
-
-      bluetooth.enable = true;
-      bluetooth.powerOnBoot = true;
-
-      graphics.enable = true;
-      graphics.enable32Bit = true; # Replaced 'driSupport32Bit'    
-    };
-    nix.settings.experimental-features = [ "nix-command" "flakes" ];
+    modules.firmware.amd.enable = true;
+    nix.settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
 
     system.stateVersion = "26.05";
   };
