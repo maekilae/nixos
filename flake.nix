@@ -23,7 +23,7 @@
     #impermanence.url = "github:nix-community/impermanence";
     import-tree.url = "github:vic/import-tree";
 
-    nixpkgs.url ="github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-25.11-darwin";
     packages = {
       flake = false;
@@ -36,6 +36,10 @@
       url = "path:./secrets";
     };
     millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
+    quickshell = {
+      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
 }
