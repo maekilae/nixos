@@ -21,7 +21,9 @@ Bitap::Bitap(QObject *parent) : QObject(parent) {
 void Bitap::setK(int k) {
     m_k = k;
 }
-
+qint32 Bitap::k() const {
+    return m_k;
+}
     /**
      * Performs a fuzzy search of the pattern in the text allowing up to k errors.
      * * @param text The text to search in.

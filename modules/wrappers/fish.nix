@@ -21,7 +21,7 @@
           aliases = {
             ls = "${lib.getExe pkgs.eza} -l --icons";
             cat = lib.getExe' pkgs.bat "bat"; # Remember the getExe trick!
-            cd = lib.getExe pkgs.zoxide;
+            cd = "z";
           };
           interactiveShellInit = # fish
             ''
@@ -55,7 +55,7 @@
                       echo -s  $cwd_color (prompt_pwd) $vcs_color (fish_vcs_prompt) $normal ' ' $prompt_status
                       echo -n -s $status_color $suffix ' ' $normal
               end
-              zoxide init fish | source
+              ${lib.getExe pkgs.zoxide} init fish | source
             '';
         }).wrapper;
     };

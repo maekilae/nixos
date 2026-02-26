@@ -24,6 +24,7 @@
           noto-fonts
           noto-fonts-cjk-sans
           noto-fonts-color-emoji
+          material-symbols
 
           # Nerd Fonts
           nerd-fonts.fira-code

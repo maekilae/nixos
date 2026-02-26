@@ -9,7 +9,7 @@
 #include <qtypes.h>
 
 namespace emphshell {
-    class Bitap : public QObject {
+    class Q_DECL_EXPORT Bitap : public QObject {
         Q_OBJECT
         QML_ELEMENT
         Q_PROPERTY(qint32 k READ k WRITE setK)
