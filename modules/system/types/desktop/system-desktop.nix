@@ -9,7 +9,7 @@
     { pkgs, self, ... }:
     {
       imports = with inputs.self.modules.nixos; [
-        cli-tools
+        # cli
         browser
         gnome
         gaming

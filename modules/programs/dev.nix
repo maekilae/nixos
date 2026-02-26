@@ -1,3 +1,4 @@
+{ inputs, ... }:
 {
   flake.modules.nixos.dev =
     {
@@ -10,6 +11,10 @@
       cfg = config.modules.dev;
     in
     {
+
+      imports = with inputs.self.modules.nixos; [
+        cli
+      ];
       options.modules.dev = {
         enable = lib.mkEnableOption "the core development environment";
         zed.enable = lib.mkEnableOption "the Zed editor integration";

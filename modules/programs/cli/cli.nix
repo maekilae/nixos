@@ -11,6 +11,8 @@
         bat
         eza
         vim
+        ripgrep
+        wget
         lazygit
         gh
         gh-notify
