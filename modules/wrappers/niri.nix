@@ -13,7 +13,6 @@ in
   perSystem =
     {
       pkgs,
-      self',
       ...
     }:
     {
@@ -45,9 +44,18 @@ in
               };
             };
 
-            binds = {
-              "Mod+Return".spawn = "wezterm";
+            outputs = {
+              "ASUSTek COMPUTER INC PG32UCDP S7LMQS107211" = {
+                mode = "3840x2160@240.016";
+                variable-refresh-rate = null;
+                hot-corners = {
+                  top-left = null;
+                };
+                scale = 1.0;
+              };
+            };
 
+            binds = {
               "Mod+C".close-window = null;
               "Mod+F".maximize-column = null;
               "Mod+G".fullscreen-window = null;
@@ -120,9 +128,11 @@ in
                   '';
                 }
               );
-              "Mod+Q".spawn = getExe pkgs.wezterm;
+              "Mod+Q".spawn = getExe self.packages."${pkgs.stdenv.hostPlatform.system}".wezterm;
               "Mod+B".spawn = getExe inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default;
-
+              "Mod+Space".spawn-sh = "${
+                getExe self.packages.${pkgs.stdenv.hostPlatform.system}.quickshell
+              } ipc call runner toggle";
             };
 
             layout = {

@@ -65,7 +65,7 @@
             LD_LIBRARY_PATH = "${emphshell-lib}/lib/qt6/qml/EmphShell:${emphshell-lib}/lib";
           };
           flags = {
-            "-c" = toString ./.;
+            # "-c" = toString ./.;
           };
         };
       };
