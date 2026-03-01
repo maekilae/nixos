@@ -40,6 +40,8 @@
       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    inputs.hyprland.url = "github:hyprwm/Hyprland"; # Dev version
   };
 
 }

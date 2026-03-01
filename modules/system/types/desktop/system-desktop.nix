@@ -17,6 +17,7 @@
         # cli # Added with dev
         browser
         gnome
+        gtk
         gaming
         discord
         spotify
