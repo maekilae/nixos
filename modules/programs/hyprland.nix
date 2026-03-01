@@ -6,11 +6,13 @@
       selfpkgs = self.packages."${pkgs.stdenv.hostPlatform.system}";
     in
     {
+      imports = with inputs.self.modules.nixos; [
+        gtk
+      ];
+      services.displayManager.cosmic-greeter.enable = true;
       programs.hyprland = {
         enable = true;
-        # set the flake package
         package = selfpkgs.hyprland;
-        # make sure to also set the portal package, so that they are in sync
         portalPackage =
           inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
       };

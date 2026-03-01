@@ -14,29 +14,12 @@
     in
     {
       imports = with inputs.self.modules.nixos; [
-        # cli # Added with dev
-        browser
-        gnome
-        gtk
-        gaming
-        discord
-        spotify
-        terminal
+        desktop
         shell
-        fonts
-        dev
         tailscale
-      ];
-      modules.dev.enable = true;
-      modules.dev.zed.enable = true;
-      modules.browser.vivaldi.enable = false;
-
-      environment.systemPackages = with inputs.self.packages."${pkgs.stdenv.hostPlatform.system}"; [
-        quickshell
+        cli
       ];
 
-      programs.niri.enable = true;
-      programs.niri.package = selfpkgs.niri;
       # Set your time zone.
       time.timeZone = "Europe/Stockholm";
 

@@ -16,25 +16,21 @@ in
       packages.hyprland =
         (inputs.wrappers.wrapperModules.hyprland.apply {
           inherit pkgs;
-          # config.package =
-          package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+          package = lib.mkForce inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
           "hypr.conf".content = # Hypr
             ''
               # Hyprland configuration file
               $terminal = wezterm
               $fileManager = dolphin
-              $menu = hyprlauncher
 
-              # exec-once = walker --gapplication-service
-              exec-once = hyprpaper
-              # exec-once = /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-              exec-once = wl-paste --type text --watch cliphist store
-              exec-once = wl-paste --type image --watch cliphist store
+              exec-once = ${pkgs.wl-clipboard}/bin/wl-paste --type text --watch cliphist store
+              exec-once = ${pkgs.wl-clipboard}/bin/wl-paste --type image --watch cliphist store
               # exec-once = hypridle
-              # exec-once = elephant
               exec-once = ${
                 (builtins.toString (getExe self.packages.${pkgs.stdenv.hostPlatform.system}.quickshell))
               }
+              exec-once = ${inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.awww}/bin/awww-daemon
+
               monitor=,3840x2160@240,auto,1
 
 
@@ -147,16 +143,31 @@ in
               $mainMod = SUPER # Sets "Windows" key as main modifier
 
               # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
-              bind = $mainMod, Q, exec, $terminal
-              bind = $mainMod, C, killactive,
-              bind = $mainMod, M, exit,
+              bind = $mainMod, Q, exec, ${getExe self.packages."${pkgs.stdenv.hostPlatform.system}".wezterm}
               bind = $mainMod, E, exec, $fileManager
-              bind = $mainMod, B, exec, zen-browser
+              bind = $mainMod, B, exec, ${
+                getExe inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
+              }
+              bind = $mainMod, space, exec, ${
+                getExe self.packages.${pkgs.stdenv.hostPlatform.system}.quickshell
+              } ipc call runner toggle
+              bind = $mainMod, S, exec, ${getExe pkgs.grim} -l 0 - | ${pkgs.wl-clipboard}/bin/wl-copy
+              bind = $mainMod, S, exec, ${
+                getExe (
+                  pkgs.writeShellApplication {
+                    name = "screenshot";
+                    text = ''
+                      ${getExe pkgs.grim} -g "$(${getExe pkgs.slurp} -w 0)" - \
+                      | ${pkgs.wl-clipboard}/bin/wl-copy
+                    '';
+                  }
+                )
+              }
+              bind = $mainMod, C, killactive,
+              # bind = $mainMod, M, exit,
               bind = $mainMod, V, togglefloating,
               bind = $mainMod SHIFT, V, fullscreen, 0
               bind = $mainMod SHIFT, V, centerwindow
-              bind = $mainMod SHIFT, Space, exec, $menu
-              bind = $mainMod, space, exec, qs ipc call runner toggle
               bind = $mainMod, P, pseudo, # dwindle
               bind = $mainMod, J, togglesplit, # dwindle
               bind = $mainMod, R,  exec, qs -n
@@ -203,19 +214,19 @@ in
               bindm = $mainMod, mouse:272, movewindow
               bindm = $mainMod, mouse:273, resizewindow
 
-              # Laptop multimedia keys for volume and LCD brightness
-              bindel = ,XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
-              bindel = ,XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
-              bindel = ,XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
-              bindel = ,XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
-              bindel = ,XF86MonBrightnessUp, exec, brightnessctl -e4 -n2 set 5%+
-              bindel = ,XF86MonBrightnessDown, exec, brightnessctl -e4 -n2 set 5%-
+              # # Laptop multimedia keys for volume and LCD brightness
+              # bindel = ,XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+              # bindel = ,XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+              # bindel = ,XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+              # bindel = ,XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+              # bindel = ,XF86MonBrightnessUp, exec, brightnessctl -e4 -n2 set 5%+
+              # bindel = ,XF86MonBrightnessDown, exec, brightnessctl -e4 -n2 set 5%-
 
-              # Requires playerctl
-              bindl = , XF86AudioNext, exec, playerctl next
-              bindl = , XF86AudioPause, exec, playerctl play-pause
-              bindl = , XF86AudioPlay, exec, playerctl play-pause
-              bindl = , XF86AudioPrev, exec, playerctl previous
+              # # Requires playerctl
+              # bindl = , XF86AudioNext, exec, playerctl next
+              # bindl = , XF86AudioPause, exec, playerctl play-pause
+              # bindl = , XF86AudioPlay, exec, playerctl play-pause
+              # bindl = , XF86AudioPrev, exec, playerctl previous
             '';
 
         }).wrapper;
