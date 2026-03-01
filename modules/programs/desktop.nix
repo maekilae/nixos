@@ -4,7 +4,7 @@
   ...
 }:
 {
-  flake.modules.nixos.gnome =
+  flake.modules.nixos.desktop =
     { pkgs, ... }:
     let
       selfpkgs = self.packages."${pkgs.stdenv.hostPlatform.system}";
@@ -20,8 +20,8 @@
         terminal
         gaming
         discord
-        hyprland
         dev
+        # gnome
       ];
       modules.dev.enable = true;
       modules.dev.zed.enable = true;

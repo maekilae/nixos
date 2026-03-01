@@ -9,8 +9,8 @@
     ];
 
     services = {
-      services.displayManager.cosmic-greeter.enable = true;
-      services.desktopManager.cosmic.enable = true;
+      displayManager.cosmic-greeter.enable = true;
+      desktopManager.cosmic.enable = true;
     };
   };
 }
