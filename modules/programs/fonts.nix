@@ -8,6 +8,9 @@
       fonts = {
         enableDefaultPackages = true;
         packages = with pkgs; [
+          # Font sets
+          google-fonts
+
           # Provides Helvetica and Mac-like metrics alternatives
           liberation_ttf
           helvetica-neue-lt-std
@@ -32,6 +35,7 @@
           nerd-fonts.jetbrains-mono
 
           ubuntu-sans
+          googlesans-code
           cm_unicode
           corefonts
           unifont

@@ -13,6 +13,9 @@
             gtk-theme = "Adwaita-dark";
             icon-theme = "Flat-Remix-Blue-Light";
 
+            cursor-theme = "Bibata-Modern-Classic";
+            cursor-size = "24";
+
             font-name = "Inter 11";
             document-font-name = "Inter 11";
             monospace-font-name = "JetBrains Mono 11";

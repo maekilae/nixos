@@ -27,11 +27,13 @@
       modules.dev.zed.enable = true;
       modules.browser.vivaldi.enable = true;
 
-      environment.systemPackages = with inputs.self.packages."${pkgs.stdenv.hostPlatform.system}"; [
-        # quickshell
-      ];
+      xdg.portal = {
+        enable = true;
+      };
+
       environment.systemPackages = with pkgs; [
-        inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.affinity
+        inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.awww
+        # inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.affinity
       ];
 
       programs.niri.enable = false;

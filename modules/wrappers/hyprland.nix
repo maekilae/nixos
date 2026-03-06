@@ -23,6 +23,7 @@ in
               $terminal = wezterm
               $fileManager = dolphin
 
+              exec-once = hyprctl setcursor Bibata-Modern-Classic 24
               exec-once = ${pkgs.wl-clipboard}/bin/wl-paste --type text --watch cliphist store
               exec-once = ${pkgs.wl-clipboard}/bin/wl-paste --type image --watch cliphist store
               # exec-once = hypridle
@@ -30,6 +31,9 @@ in
                 (builtins.toString (getExe self.packages.${pkgs.stdenv.hostPlatform.system}.quickshell))
               }
               exec-once = ${inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.awww}/bin/awww-daemon
+              exec-once = ${
+                inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.awww
+              }/bin/awww img ~/.config/wallpaper
 
               monitor=,3840x2160@240,auto,1
 
@@ -46,10 +50,6 @@ in
               # https://wiki.hyprland.org/Configuring/Variables/#input
               input {
                   kb_layout = us
-                  kb_variant =
-                  kb_model =
-                  kb_options =
-                  kb_rules =
 
                   follow_mouse = 1
 

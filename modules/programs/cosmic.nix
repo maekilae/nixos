@@ -3,7 +3,7 @@
   ...
 }:
 {
-  flake.modules.nixos.gnome = {
+  flake.modules.nixos.cosmic = {
 
     imports = with inputs.self.modules.nixos; [
     ];
