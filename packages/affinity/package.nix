@@ -3,12 +3,12 @@
 }:
 
 let
-  pname = "wowup-cf";
-  version = "2.22.0";
+  pname = "affinity";
+  version = "3.0.2";
 
   src = pkgs.fetchurl {
-    url = "https://github.com/WowUp/WowUp.CF/releases/download/v2.22.0/WowUp-CF-2.22.0.AppImage";
-    sha256 = "5f98039e3e18059441c0911e6fcb1530da06996508f6255d58e9ac036d1b5a28";
+    url = "https://github.com/ryzendew/Linux-Affinity-Installer/releases/download/${version}/Affinity-${version}-x86_64.AppImage";
+    sha256 = "eb4d297d25ed7fe1b22710ed7d660848b32a2316f283a4d4166a41ee882a5d68";
   };
 
   appimageContents = pkgs.appimageTools.extractType2 { inherit pname version src; };

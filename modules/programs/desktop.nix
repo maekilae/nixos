@@ -30,6 +30,9 @@
       environment.systemPackages = with inputs.self.packages."${pkgs.stdenv.hostPlatform.system}"; [
         # quickshell
       ];
+      environment.systemPackages = with pkgs; [
+        inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.affinity
+      ];
 
       programs.niri.enable = false;
       programs.niri.package = selfpkgs.niri;
