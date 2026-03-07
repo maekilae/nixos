@@ -14,13 +14,30 @@
       packages.hypridle =
         (self.wrapperModules.hypridle.apply {
           inherit pkgs;
+          # package = lib.mkForce inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hypridle;
 
           general = {
-            before_sleep_cmd = "${lib.getExe pkgs.systemd} lock-session"; # loginctl is part of systemd
+            lock_cmd = "pidof hyprlock || ${lib.getExe pkgs.hyprlock}"; # avoid starting multiple hyprlock instances.
+            before_sleep_cmd = "loginctl lock-session"; # loginctl is part of systemd
             after_sleep_cmd = "${lib.getExe pkgs.hyprland} dispatch dpms on"; # to avoid having to press a key twice to turn on the display.
           };
 
           listeners = [
+            {
+              timeout = 150; # 2.5min.
+              on-timeout = "${lib.getExe pkgs.brightnessctl} -s set 10"; # set monitor backlight to minimum
+              on-resume = "${lib.getExe pkgs.brightnessctl} -r"; # monitor backlight restore.
+            }
+            # turn off keyboard backlight
+            {
+              timeout = 150;
+              on-timeout = "${lib.getExe pkgs.brightnessctl} -sd rgb:kbd_backlight set 0";
+              on-resume = "${lib.getExe pkgs.brightnessctl} -rd rgb:kbd_backlight";
+            }
+            {
+              timeout = 300; # 5min
+              on-timeout = "${lib.getExe pkgs.systemd} lock-session"; # loginctl
+            }
             {
               timeout = 330; # 5.5min
               on-timeout = "${lib.getExe pkgs.hyprland} dispatch dpms off";
