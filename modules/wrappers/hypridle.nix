@@ -15,10 +15,11 @@
         (self.wrapperModules.hypridle.apply {
           inherit pkgs;
           # package = lib.mkForce inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hypridle;
+          package = lib.mkForce inputs.hypridle.packages.${pkgs.stdenv.hostPlatform.system}.hypridle;
 
           general = {
-            lock_cmd = "pidof hyprlock || ${lib.getExe pkgs.hyprlock}"; # avoid starting multiple hyprlock instances.
-            before_sleep_cmd = "loginctl lock-session"; # loginctl is part of systemd
+            lock_cmd = "pidof ${lib.getExe pkgs.hyprlock} || ${lib.getExe pkgs.hyprlock}"; # avoid starting multiple hyprlock instances.
+            before_sleep_cmd = "${lib.getExe' pkgs.systemd "loginctl"} lock-session";
             after_sleep_cmd = "${lib.getExe pkgs.hyprland} dispatch dpms on"; # to avoid having to press a key twice to turn on the display.
           };
 
@@ -36,7 +37,7 @@
             }
             {
               timeout = 300; # 5min
-              on-timeout = "${lib.getExe pkgs.systemd} lock-session"; # loginctl
+              on-timeout = "${lib.getExe' pkgs.systemd "loginctl"} lock-session";
             }
             {
               timeout = 330; # 5.5min

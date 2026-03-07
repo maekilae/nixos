@@ -16,7 +16,7 @@ in
       packages.hyprland =
         (inputs.wrappers.wrapperModules.hyprland.apply {
           inherit pkgs;
-          package = lib.mkForce inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+          package = lib.mkForce inputs.hyprwm.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
           "hypr.conf".content = # Hypr
             ''
               # Hyprland configuration file

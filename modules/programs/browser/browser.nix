@@ -36,6 +36,7 @@
       imports = with inputs.self.modules.nixos; [
         vivaldi
       ];
+      # system.defaultApps.browser = "firefox";
       environment.systemPackages = [
         (pkgs.wrapFirefox
           inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.zen-browser-unwrapped

@@ -24,11 +24,27 @@
       #  theme = "catppuccin-mocha-mauve";
       #  wayland.enable = true;
       #};
-      services.hypridle = {
+      # services.hypridle = {
+      #   enable = true;
+      #   package = selfpkgs.hypridle;
+      # };
+      systemd.user.services.hypridle = {
         enable = true;
-        package = selfpkgs.hypridle;
+        description = "Hyprland's idle daemon";
+        wantedBy = [ "hyprland-session.target" ];
+        partOf = [ "graphical-session.target" ];
+        serviceConfig = {
+          ExecStart = lib.mkForce [
+            ""
+            "${selfpkgs.hypridle}/bin/hypridle"
+          ];
+          Restart = "always";
+        };
       };
-      programs.hyprlock.enable = true;
+      programs.hyprlock = {
+        enable = true;
+        package = inputs.hyprwm.packages.${pkgs.stdenv.hostPlatform.system}.hyprlock;
+      };
 
       programs.hyprland = {
         enable = true;
@@ -36,7 +52,7 @@
         withUWSM = true;
         xwayland.enable = true;
         portalPackage =
-          inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+          inputs.hyprwm.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
       };
 
     };

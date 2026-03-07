@@ -38,7 +38,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hyprland.url = "github:hyprwm/Hyprland"; # Dev version
+    # hyprland.url = "github:hyprwm/Hyprland"; # Dev version
+    hyprwm.url = "github:hyprwm/hyprnix";
+    hypridle.url = "github:hyprwm/hypridle"; # TEMP
     #Previously swww
     awww.url = "git+https://codeberg.org/LGFae/awww";
 
