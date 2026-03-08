@@ -3,7 +3,7 @@
 }:
 
 let
-  pname = "helium-browser";
+  pname = "helium";
   version = "0.9.4.1";
 
   src = pkgs.fetchurl {

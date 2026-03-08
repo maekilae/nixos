@@ -40,7 +40,6 @@
       ];
       environment.systemPackages = with pkgs; [
         bibata-cursors
-        selfpkgs.helium-browser
       ];
       programs.uwsm.enable = true;
       # services.displayManager.cosmic-greeter.enable = true;
