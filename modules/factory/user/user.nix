@@ -17,6 +17,7 @@
           home = "/home/${username}";
           extraGroups = lib.optionals isAdmin [
             "wheel"
+            "video"
           ];
           shell = pkgs.zsh;
           initialPassword = "12345";
