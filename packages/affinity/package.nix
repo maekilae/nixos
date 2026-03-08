@@ -3,7 +3,7 @@
 }:
 
 let
-  pname = "affinity";
+  pname = "Affinity";
   version = "3.0.2";
 
   src = pkgs.fetchurl {

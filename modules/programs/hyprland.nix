@@ -40,6 +40,7 @@
       ];
       environment.systemPackages = with pkgs; [
         bibata-cursors
+        silent-sddm
       ];
       programs.uwsm.enable = true;
       # services.displayManager.cosmic-greeter.enable = true;

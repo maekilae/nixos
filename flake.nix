@@ -41,6 +41,7 @@
     # hyprland.url = "github:hyprwm/Hyprland"; # Dev version
     hyprwm.url = "github:hyprwm/hyprnix";
     hypridle.url = "github:hyprwm/hypridle"; # TEMP
+    hyprqt6engine.url = "github:hyprwm/hyprqt6engine";
     #Previously swww
     awww.url = "git+https://codeberg.org/LGFae/awww";
 
