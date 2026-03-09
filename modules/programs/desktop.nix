@@ -38,6 +38,7 @@
       environment.systemPackages = with pkgs; [
         inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.awww
         inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.affinity
+        qalculate-qt
       ];
 
       programs.niri.enable = false;

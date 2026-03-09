@@ -1,9 +1,10 @@
 {
   lib,
-  unzip,
-  autoPatchelfHook,
   stdenv,
   fetchurl,
+  unzip,
+  autoPatchelfHook,
+  makeWrapper,
   libxcb,
   libX11,
   libXcomposite,
@@ -13,17 +14,23 @@
   libXrandr,
   libgbm,
   cairo,
-  libudev-zero,
   libxkbcommon,
   nspr,
   nss,
   libcupsfilters,
   pango,
-  qt5,
   alsa-lib,
   atk,
   at-spi2-core,
   at-spi2-atk,
+  mesa,
+  gtk3,
+  libdrm,
+  systemd,
+  libglvnd,
+  gsettings-desktop-schemas,
+  glib,
+  widevine-cdm, # Added Widevine input
 }:
 
 stdenv.mkDerivation rec {
@@ -38,17 +45,21 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [
     unzip
     autoPatchelfHook
+    makeWrapper
   ];
 
   autoPatchelfIgnoreMissingDeps = [
     "libQt6Core.so.6"
     "libQt6Gui.so.6"
     "libQt6Widgets.so.6"
+    "libQt5Core.so.5"
+    "libQt5Gui.so.5"
+    "libQt5Widgets.so.5"
   ];
 
-  runtimeDependencies = [ ];
+  runtimeDependencies = [ systemd ];
+
   buildInputs = [
-    unzip
     libxcb
     libX11
     libXcomposite
@@ -59,7 +70,6 @@ stdenv.mkDerivation rec {
     libgbm
     cairo
     pango
-    libudev-zero
     libxkbcommon
     nspr
     nss
@@ -68,42 +78,56 @@ stdenv.mkDerivation rec {
     atk
     at-spi2-core
     at-spi2-atk
-    qt5.qtbase
-    qt5.qttools
-    qt5.qtx11extras
-    qt5.wrapQtAppsHook
+    gsettings-desktop-schemas
+    glib
   ];
+
   installPhase = ''
-          runHook preInstall
-          mkdir -p $out/bin
-          mv * $out/bin/
+    runHook preInstall
 
-          # -----  fix broken symlinks  -----
-          # 1. delete every symlink that is now dangling
-          find $out/bin -xtype l -delete
+    mkdir -p $out/opt/helium
+    cp -r . $out/opt/helium/
 
-          # ln -sfn $out/bin/libfoo.so.2 $out/bin/libfoo.so)
+    # --- UBLOCK ERROR FIX ---
+    mkdir -p $out/opt/helium/resources/ublock
+    echo "{}" > $out/opt/helium/resources/ublock/managed_storage.json
 
-          # -----
+    # --- WIDEVINE DRM FIX ---
+    # Symlink the entire Widevine folder directly next to the helium executable.
+    # Chromium natively looks here if command-line flags are ignored.
+    ln -s ${widevine-cdm}/share/google/chrome/WidevineCdm $out/opt/helium/WidevineCdm
 
-          mkdir -p $out/share/applications
+    mkdir -p $out/bin
+    makeWrapper $out/opt/helium/helium $out/bin/helium \
+      --prefix LD_LIBRARY_PATH : "${
+        lib.makeLibraryPath [
+          libxkbcommon
+          mesa
+          gtk3
+          libdrm
+          libgbm
+          libglvnd
+        ]
+      }" \
+      --prefix XDG_DATA_DIRS : "${gsettings-desktop-schemas}/share/gsettings-schemas/${gsettings-desktop-schemas.name}:${gtk3}/share/gsettings-schemas/${gtk3.name}" \
+      --add-flags "--enable-features=UseOzonePlatform" \
+      --add-flags "--ozone-platform=wayland" \
+      --add-flags "--user-agent=\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36\"" \
+      --set CHROME_VERSION_EXTRA "nixos"
 
-          cat <<INI> $out/share/applications/${pname}.desktop
-    [Desktop Entry]
-    Name=${pname}
-    GenericName=Web Browser
-    Terminal=false
-    Icon=$out/bin/product_logo_256.png
-    Exec=$out/bin/${pname}
-    Type=Application
-    Categories=Network;WebBrowser;
-    INI
+    mkdir -p $out/share/applications
+    substitute $out/opt/helium/helium.desktop $out/share/applications/helium.desktop \
+      --replace-fail "Exec=helium" "Exec=$out/bin/helium"
+
+    mkdir -p $out/share/icons/hicolor/256x256/apps
+    cp $out/opt/helium/product_logo_256.png $out/share/icons/hicolor/256x256/apps/helium.png
+
+    runHook postInstall
   '';
 
   meta = with lib; {
     homepage = "https://github.com/imputnet/helium-linux";
-    description = "The Chromium-based web browser made for people, with love.
-    Best privacy by default, unbiased ad-blocking, no bloat and no noise. ";
+    description = "The Chromium-based web browser made for people, with love.";
     platforms = platforms.linux;
   };
 }

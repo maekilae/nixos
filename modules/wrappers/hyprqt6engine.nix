@@ -15,7 +15,7 @@
         (self.wrapperModules.hyprqt6engine.apply {
           inherit pkgs;
           # Example usage of your new options
-          color_scheme = "";
+          color_scheme = "materia-kde-theme";
           icon_theme = "Flat-Remix-Blue-Light";
           style = "kvantum-dark";
           font_fixed = "JetBrains Mono";
@@ -29,12 +29,10 @@
     {
       config,
       lib,
+      # Removed pkgs from here
       ...
     }:
     let
-      # Assemble the configuration file content.
-      # Note: Adjust the format below if hyprqt6engine requires specific INI sections
-      # (like [Appearance] or [Fonts]).
       generatedConfig = ''
         color_scheme=${config.color_scheme}
         icon_theme=${config.icon_theme}
@@ -45,11 +43,11 @@
         font_size=${builtins.toString config.font_size}
       '';
 
-      # Write the derivation using config.pkgs
       writeEngineConfig = cfg: config.pkgs.writeText "hyprqt6engine.conf" cfg;
-
-      # Evaluate the file path as a string
       configFilePath = "${writeEngineConfig generatedConfig}";
+
+      # Use config.pkgs instead of just pkgs
+      hyprqt6engine = inputs.hyprqt6engine.packages.${config.pkgs.stdenv.hostPlatform.system}.default;
     in
     {
       options = {
@@ -97,15 +95,11 @@
       };
 
       config = {
-        # Pass the config file to the wrapper.
-        # Be sure to change "--config" to whatever flag hyprqt6engine actually uses
-        # (e.g., "-c", "--file") to load a configuration.
         flags = {
           "--config" = "${configFilePath}";
         };
 
-        # Ensure pkgs.hyprqt6engine is available in your nixpkgs/overlays
-        package = config.pkgs.hyprqt6engine;
+        package = hyprqt6engine;
       };
     }
   );
