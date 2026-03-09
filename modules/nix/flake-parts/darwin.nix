@@ -9,7 +9,7 @@
 
   options = {
     flake = flake-parts-lib.mkSubmoduleOptions {
-      nix-darwin = lib.mkOption {
+      darwin = lib.mkOption {
         type = lib.types.lazyAttrsOf lib.types.raw;
         default = { };
       };

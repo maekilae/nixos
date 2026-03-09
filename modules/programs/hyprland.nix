@@ -11,12 +11,11 @@
       silent-sddm = pkgs.stdenv.mkDerivation {
         name = "silent-sddm";
 
-        # Fetch the raw theme from GitHub
         src = pkgs.fetchFromGitHub {
           owner = "uiriansan";
           repo = "SilentSDDM";
-          rev = "v1.4.2"; # The latest stable release
-          sha256 = "WeoJBj/PhqFCCJEIycTipqPbKm5BpQT2uzFTYcYZ30I="; # We will let Nix calculate the real hash!
+          rev = "v1.4.2";
+          sha256 = "WeoJBj/PhqFCCJEIycTipqPbKm5BpQT2uzFTYcYZ30I=";
         };
 
         propagatedUserEnvPkgs = with pkgs.kdePackages; [
@@ -26,7 +25,6 @@
           qtdeclarative
         ];
 
-        # Put it in the exact folder SDDM expects
         installPhase = ''
           mkdir -p $out/share/sddm/themes/silent
           cp -r * $out/share/sddm/themes/silent/
@@ -42,8 +40,8 @@
         bibata-cursors
         silent-sddm
       ];
+      environment.sessionVariables.NIXOS_OZONE_WL = "1";
       programs.uwsm.enable = true;
-      # services.displayManager.cosmic-greeter.enable = true;
       services.displayManager.sddm = {
         enable = true;
         wayland = {

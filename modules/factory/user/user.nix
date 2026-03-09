@@ -17,18 +17,12 @@
           home = "/home/${username}";
           extraGroups = lib.optionals isAdmin [
             "wheel"
-            "video"
           ];
           shell = pkgs.zsh;
           initialPassword = "12345";
         };
         programs.zsh.enable = true;
 
-        #home-manager.users."${username}" = {
-        #  imports = [
-        #    self.modules.homeManager."${username}"
-        #  ];
-        #};
       };
 
     darwin."${username}" =
