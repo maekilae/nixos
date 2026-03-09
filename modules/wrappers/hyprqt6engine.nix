@@ -7,14 +7,12 @@
   perSystem =
     {
       pkgs,
-      lib,
       ...
     }:
     {
       packages.hyprqt6engine =
         (self.wrapperModules.hyprqt6engine.apply {
           inherit pkgs;
-          # Example usage of your new options
           color_scheme = "materia-kde-theme";
           icon_theme = "Flat-Remix-Blue-Light";
           style = "kvantum-dark";
@@ -29,24 +27,24 @@
     {
       config,
       lib,
-      # Removed pkgs from here
       ...
     }:
     let
       generatedConfig = ''
-        color_scheme=${config.color_scheme}
-        icon_theme=${config.icon_theme}
-        style=${config.style}
-        font_fixed=${config.font_fixed}
-        font_fixed_size=${builtins.toString config.font_fixed_size}
-        font=${config.font}
-        font_size=${builtins.toString config.font_size}
+        theme {
+            color_scheme=${config.color_scheme}
+            icon_theme=${config.icon_theme}
+            style=${config.style}
+            font_fixed=${config.font_fixed}
+            font_fixed_size=${toString config.font_fixed_size}
+            font=${config.font}
+            font_size=${toString config.font_size}
+        }
       '';
 
       writeEngineConfig = cfg: config.pkgs.writeText "hyprqt6engine.conf" cfg;
       configFilePath = "${writeEngineConfig generatedConfig}";
 
-      # Use config.pkgs instead of just pkgs
       hyprqt6engine = inputs.hyprqt6engine.packages.${config.pkgs.stdenv.hostPlatform.system}.default;
     in
     {

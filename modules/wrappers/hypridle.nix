@@ -65,7 +65,7 @@
           ''
             general {
             ${lib.concatStringsSep "\n" (
-              lib.mapAttrsToList (name: value: "    ${name} = ${builtins.toString value}") config.general
+              lib.mapAttrsToList (name: value: "    ${name} = ${toString value}") config.general
             )}
             }
           ''
@@ -74,10 +74,10 @@
 
       # 2. Format the list of listeners
       listenersStr = lib.concatStringsSep "\n\n" (
-        builtins.map (listener: ''
+        map (listener: ''
           listener {
           ${lib.concatStringsSep "\n" (
-            lib.mapAttrsToList (name: value: "    ${name} = ${builtins.toString value}") listener
+            lib.mapAttrsToList (name: value: "    ${name} = ${toString value}") listener
           )}
           }
         '') config.listeners
