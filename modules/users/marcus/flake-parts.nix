@@ -3,5 +3,5 @@
   ...
 }:
 {
-  flake.homeConfigurations = inputs.self.lib.mkHomeManager "x86_64-linux" "bob";
+  flake.homeConfigurations = inputs.self.lib.mkHome "x86_64-linux" "bob";
 }

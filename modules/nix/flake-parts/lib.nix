@@ -10,13 +10,8 @@
     type = lib.types.attrsOf lib.types.unspecified;
     default = { };
   };
-  # options.flake.wrapperModules = lib.mkOption {
-  #   type = lib.types.attrsOf lib.types.unspecified;
-  #   default = { };
-  # };
 
   config.flake.lib = {
-
     mkNixos = system: name: {
       ${name} = inputs.nixpkgs.lib.nixosSystem {
         modules = [
@@ -32,12 +27,15 @@
       ${name} = inputs.nix-darwin.lib.darwinSystem {
         modules = [
           inputs.self.modules.darwin.${name}
-          { nixpkgs.hostPlatform = lib.mkDefault system; }
+          {
+            nixpkgs.hostPlatform = lib.mkDefault system;
+            nixpkgs.config.allowUnfree = true;
+          }
         ];
       };
     };
 
-    mkHomeManager = system: name: {
+    mkHome = system: name: {
       ${name} = inputs.home-manager.lib.homeManagerConfiguration {
         pkgs = inputs.nixpkgs.legacyPackages.${system};
         modules = [

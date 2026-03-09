@@ -8,6 +8,7 @@
     { pkgs, ... }:
     let
       selfpkgs = self.packages."${pkgs.stdenv.hostPlatform.system}";
+      helium = inputs.helium.${pkgs.stdenv.hostPlatform.system}.nixosModules.default;
     in
     {
 
@@ -25,8 +26,17 @@
       ];
       modules.dev.enable = true;
       modules.dev.zed.enable = true;
-      modules.browser.vivaldi.enable = true;
-      modules.browser.helium.enable = true;
+      modules.browser.vivaldi.enable = false;
+      modules.browser.helium.enable = false;
+
+      programs.helium = {
+        enable = true;
+        enableWidevine = true;
+        extensions = [
+          "ghmbeldphafepmbegfdlkpapadhbakde" # Proton-pass
+          "jplgfhpmjnbigmhklmmbgecoobifkmpa" # Proton-VPN
+        ];
+      };
 
       xdg.portal = {
         enable = true;

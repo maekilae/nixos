@@ -1,5 +1,6 @@
 {
   inputs,
+  lib,
   ...
 }:
 {
@@ -15,7 +16,7 @@
       hostName = "callisto";
       networkmanager.enable = true;
     };
-    nixpkgs.config.allowUnfree = true;
+    nixpkgs.config.allowUnfree = lib.mkForce true;
 
     modules.firmware.amd.enable = true;
     nix = {
