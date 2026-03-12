@@ -19,6 +19,7 @@
           {
             nixpkgs.hostPlatform = lib.mkDefault system;
           }
+          inputs.anynix.default
         ];
       };
     };
