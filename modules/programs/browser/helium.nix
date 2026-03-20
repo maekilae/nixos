@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ ... }:
 {
   flake.modules.nixos.helium =
     {
@@ -10,7 +10,6 @@
       cfg = config.modules.browser.helium;
     in
     {
-      # imports = [ inputs.anynix.default ];
       options.modules.browser.helium = {
         enable = lib.mkEnableOption "Helium browser";
         default = true;

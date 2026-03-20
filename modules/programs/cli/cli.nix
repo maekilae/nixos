@@ -17,6 +17,8 @@
         gh
         gh-notify
         zoxide
+        unzip
+        unrar-free
       ];
     };
 }
