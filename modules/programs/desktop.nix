@@ -21,6 +21,7 @@
         gaming
         discord
         dev
+        filebrowser
         # gnome
       ];
       modules.dev.enable = true;
