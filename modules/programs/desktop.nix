@@ -15,6 +15,7 @@
         gtk
         fonts
         spotify
+        cider
         browser
         hyprland
         terminal
@@ -40,6 +41,7 @@
         inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.awww
         inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.affinity
         qalculate-qt
+        pavucontrol
       ];
 
       programs.niri.enable = false;
