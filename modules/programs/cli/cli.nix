@@ -19,6 +19,7 @@
         zoxide
         unzip
         unrar-free
+        claude-code
       ];
     };
 }

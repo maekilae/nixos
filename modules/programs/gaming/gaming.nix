@@ -44,6 +44,7 @@
         inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.wowup
         azahar
         melonds
+        ckan
       ];
 
     };

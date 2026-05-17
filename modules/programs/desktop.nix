@@ -15,7 +15,7 @@
         gtk
         fonts
         spotify
-        cider
+        # cider
         browser
         hyprland
         terminal

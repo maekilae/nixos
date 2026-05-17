@@ -2,9 +2,9 @@
   pkgs ? import <nixpkgs> { },
 }:
 let
-  pname = "cider2";
+  pname = "cider";
   version = "3.1.8"; # Update this to match your actual version
-  src = ./cider2.AppImage; # References the AppImage in the same directory
+  src = /home/marcus/nixos/packages/cider/cider2.AppImage; # References the AppImage in the same directory
   appimageContents = pkgs.appimageTools.extractType2 { inherit pname version src; };
   appimageWrap = pkgs.appimageTools.wrapType2 {
     inherit pname version src;
