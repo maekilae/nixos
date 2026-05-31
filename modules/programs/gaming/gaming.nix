@@ -12,7 +12,7 @@
     {
       hardware.graphics.enable = mkDefault true;
 
-      nixpkgs.overlays = [ inputs.millennium.overlays.default ];
+      # nixpkgs.overlays = [ inputs.millennium.overlays.default ];
 
       programs = {
         gamemode.enable = true;
@@ -30,7 +30,7 @@
           remotePlay.openFirewall = true;
           dedicatedServer.openFirewall = true;
           localNetworkGameTransfers.openFirewall = true;
-          package = pkgs.millennium-steam;
+          # package = pkgs.millennium-steam;
         };
       };
 

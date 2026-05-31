@@ -24,6 +24,7 @@
         dev
         filebrowser
         # gnome
+        cad
       ];
       modules.dev.enable = true;
       modules.dev.zed.enable = true;
@@ -39,7 +40,7 @@
 
       environment.systemPackages = with pkgs; [
         inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.awww
-        inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.affinity
+        # inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.affinity
         qalculate-qt
         pavucontrol
       ];

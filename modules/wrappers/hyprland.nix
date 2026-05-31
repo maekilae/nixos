@@ -132,7 +132,7 @@ in
                   #animation = workspacesOut, 1, 1.94, quick, fade
               }
               dwindle {
-                  pseudotile = true # Master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
+                  # pseudotile = true # Master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
                   preserve_split = true # You probably want this
               }
 
@@ -169,7 +169,7 @@ in
               bind = $mainMod SHIFT, V, fullscreen, 0
               bind = $mainMod SHIFT, V, centerwindow
               bind = $mainMod, P, pseudo, # dwindle
-              bind = $mainMod, J, togglesplit, # dwindle
+              # bind = $mainMod, J, togglesplit, # dwindle
               bind = $mainMod, R,  exec, qs -n
 
               # Move focus with mainMod + arrow keys

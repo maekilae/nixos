@@ -4,11 +4,11 @@
 
 let
   pname = "wowup-cf";
-  version = "2.22.0";
+  version = "2.22.1-beta.3";
 
   src = pkgs.fetchurl {
-    url = "https://github.com/WowUp/WowUp.CF/releases/download/v2.22.0/WowUp-CF-2.22.0.AppImage";
-    sha256 = "5f98039e3e18059441c0911e6fcb1530da06996508f6255d58e9ac036d1b5a28";
+    url = "https://github.com/WowUp/WowUp.CF/releases/download/v${version}/WowUp-CF-${version}.AppImage";
+    sha256 = "f37f82cb033f7e3bfef98a0a9b73f67ac6d75deab387c0723c7ec630fe665ebf";
   };
 
   appimageContents = pkgs.appimageTools.extractType2 { inherit pname version src; };

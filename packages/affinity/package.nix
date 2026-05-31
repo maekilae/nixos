@@ -4,11 +4,11 @@
 
 let
   pname = "Affinity";
-  version = "3.0.2";
+  version = "3.2.0";
 
   src = pkgs.fetchurl {
     url = "https://github.com/ryzendew/Linux-Affinity-Installer/releases/download/${version}/Affinity-${version}-x86_64.AppImage";
-    sha256 = "eb4d297d25ed7fe1b22710ed7d660848b32a2316f283a4d4166a41ee882a5d68";
+    sha256 = "32ac7f35834dad83cfa0b426571dea356be92f19f2b01eebd3139583395d516a";
   };
 
   appimageContents = pkgs.appimageTools.extractType2 { inherit pname version src; };
