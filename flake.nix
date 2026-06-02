@@ -48,6 +48,11 @@
     awww.url = "git+https://codeberg.org/LGFae/awww";
 
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
+
+    caelestia-shell = {
+      url = "github:caelestia-dots/shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
 }
