@@ -11,7 +11,7 @@
     in
     {
       environment.systemPackages = [
-        inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.cider
+        inputs.anynix.packages.${pkgs.stdenv.hostPlatform.system}.cider
       ];
 
     };

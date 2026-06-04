@@ -26,7 +26,7 @@
       flake = false;
       url = "path:./packages";
     };
-    anynix.url = "path:/home/marcus/Dev/helium-flake";
+    anynix.url = "path:/home/marcus/Dev/anynix-flake";
 
     pkgs-by-name-for-flake-parts.url = "github:drupol/pkgs-by-name-for-flake-parts";
     secrets = {

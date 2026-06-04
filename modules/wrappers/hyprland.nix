@@ -145,12 +145,14 @@ in
                $mainMod = SUPER # Sets "Windows" key as main modifier
 
                # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
+               exec=hyprctl dispatch submap global
+               submap=global
                bind = $mainMod, Q, exec, ${getExe self.packages."${pkgs.stdenv.hostPlatform.system}".wezterm}
                bind = $mainMod, E, exec, $fileManager
                bind = $mainMod, B, exec, ${
                  getExe inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
                }
-               bind = $mainMod, space, exec, ${
+               #bind = $mainMod, space, exec, ${
                  getExe self.packages.${pkgs.stdenv.hostPlatform.system}.quickshell
                } ipc call runner toggle
                bind = $mainMod, S, exec, ${getExe pkgs.grim} -l 0 - | ${pkgs.wl-clipboard}/bin/wl-copy
@@ -173,6 +175,17 @@ in
                bind = $mainMod, P, pseudo, # dwindle
                # bind = $mainMod, J, togglesplit, # dwindle
                bind = $mainMod, R,  exec, qs -n
+
+               bind = $mainMod, space, global, caelestia:launcher
+               bindin = Super, catchall, global, caelestia:launcherInterrupt
+               bindin = Super, mouse:272, global, caelestia:launcherInterrupt
+               bindin = Super, mouse:273, global, caelestia:launcherInterrupt
+               bindin = Super, mouse:274, global, caelestia:launcherInterrupt
+               bindin = Super, mouse:275, global, caelestia:launcherInterrupt
+               bindin = Super, mouse:276, global, caelestia:launcherInterrupt
+               bindin = Super, mouse:277, global, caelestia:launcherInterrupt
+               bindin = Super, mouse_up, global, caelestia:launcherInterrupt
+               bindin = Super, mouse_down, global, caelestia:launcherInterrupt
 
                # Move focus with mainMod + arrow keys
                bind = $mainMod, left, movefocus, l
