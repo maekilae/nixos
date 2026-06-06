@@ -11,6 +11,9 @@
         alejandra
         nil
         nixd
+
+        vscode
+
       ];
 
     };

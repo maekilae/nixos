@@ -13,9 +13,10 @@
 
       imports = with inputs.self.modules.nixos; [
         gtk
+        qt
         fonts
         spotify
-        # cider
+        cider
         browser
         hyprland
         terminal
@@ -40,7 +41,7 @@
 
       environment.systemPackages = with pkgs; [
         inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.awww
-        # inputs.anynix.packages.${pkgs.stdenv.hostPlatform.system}.affinity
+        inputs.anynix.packages.${pkgs.stdenv.hostPlatform.system}.affinity
         qalculate-qt
         pavucontrol
       ];

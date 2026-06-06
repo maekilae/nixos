@@ -20,6 +20,7 @@
         unzip
         unrar-free
         claude-code
+        usbutils
       ];
     };
 }
