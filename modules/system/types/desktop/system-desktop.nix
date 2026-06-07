@@ -7,7 +7,7 @@
 {
   # expansion of cli system for desktop use
 
-  flake.modules.nixos.system-desktop =
+  flake.modules.nixos.systemDesktop =
     { pkgs, ... }:
     let
       selfpkgs = self.packages."${pkgs.stdenv.hostPlatform.system}";
@@ -43,7 +43,7 @@
 
     };
 
-  flake.modules.darwin.system-desktop = {
+  flake.modules.darwin.systemDesktop = {
     imports = with inputs.self.modules.darwin; [
     ];
   };

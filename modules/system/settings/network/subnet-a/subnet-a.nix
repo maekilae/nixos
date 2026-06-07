@@ -1,5 +1,5 @@
 {
-  flake.modules.networkInterface.subnet-A = {
+  flake.modules.networkInterface.subnetA = {
     ipv6.routes = [
       {
         address = "2001:1470:fffd:2098::";

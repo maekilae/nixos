@@ -6,9 +6,9 @@
 {
   flake.modules.nixos.callisto = {
     imports = with inputs.self.modules.nixos; [
-      system-desktop
-      systemd-boot
-      systemd-gc
+      systemDesktop
+      systemdBoot
+      systemdGc
       bluetooth
       firmware
     ];

@@ -1,5 +1,5 @@
 {
-  config.flake.factory.mount-cifs-nixos =
+  config.flake.factory.mountCifsNixos =
     {
       host,
       resource,

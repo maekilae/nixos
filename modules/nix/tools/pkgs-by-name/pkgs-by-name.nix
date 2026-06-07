@@ -5,7 +5,7 @@
 }:
 {
 
-  flake.modules.generic.pkgs-by-name =
+  flake.modules.generic.pkgsByName =
     { pkgs, ... }:
     {
       nixpkgs.overlays = [

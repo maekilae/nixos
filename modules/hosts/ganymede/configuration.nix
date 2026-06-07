@@ -6,8 +6,8 @@
 {
   flake.modules.nixos.ganymede = {
     imports = with inputs.self.modules.nixos; [
-      systemd-boot
-      systemd-gc
+      systemdBoot
+      systemdGc
       bluetooth
       firmware
     ];

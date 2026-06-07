@@ -12,20 +12,18 @@
     {
 
       imports = with inputs.self.modules.nixos; [
-        gtk
-        qt
-        fonts
-        spotify
-        cider
+        theming
+        media
+        compositor
         browser
-        hyprland
         terminal
         gaming
         discord
         dev
         filebrowser
-        # gnome
         cad
+        # desktopEnv
+        # editor
       ];
       modules.dev.enable = true;
       modules.dev.zed.enable = true;

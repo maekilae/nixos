@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.systemd-gc =
+  flake.modules.nixos.systemdGc =
     { pkgs, ... }:
     {
       systemd.services.nixos-count-based-gc = {

@@ -5,7 +5,7 @@
 }:
 
 {
-  flake.modules.nixos.system-server =
+  flake.modules.nixos.systemServer =
     { pkgs, ... }:
     let
       selfpkgs = self.packages."${pkgs.stdenv.hostPlatform.system}";

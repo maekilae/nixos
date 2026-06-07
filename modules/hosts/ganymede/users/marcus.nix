@@ -4,7 +4,7 @@
   ...
 }:
 {
-  flake.modules.nixos.callisto =
+  flake.modules.nixos.ganymede =
     { config, ... }:
     {
       imports =
