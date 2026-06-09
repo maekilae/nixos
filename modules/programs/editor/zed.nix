@@ -13,7 +13,6 @@
         nixd
 
         vscode
-
       ];
 
     };
