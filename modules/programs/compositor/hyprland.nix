@@ -39,6 +39,7 @@
       environment.systemPackages = with pkgs; [
         bibata-cursors
         silent-sddm
+        selfpkgs.caelestia
       ];
       environment.sessionVariables.NIXOS_OZONE_WL = "1";
       programs.uwsm.enable = true;

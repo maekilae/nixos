@@ -31,7 +31,7 @@ in
                 (builtins.toString (getExe self.packages.${pkgs.stdenv.hostPlatform.system}.quickshell))
               }
 
-               exec-once = ${getExe self.packages.${pkgs.stdenv.hostPlatform.system}.caelestia}
+               exec-once = caelestia shell -d
                exec-once = ${inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.awww}/bin/awww-daemon
                exec-once = ${
                  inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.awww
@@ -176,16 +176,7 @@ in
                # bind = $mainMod, J, togglesplit, # dwindle
                bind = $mainMod, R,  exec, qs -n
 
-               bind = $mainMod, space, global, caelestia:launcher
-               bindin = Super, catchall, global, caelestia:launcherInterrupt
-               bindin = Super, mouse:272, global, caelestia:launcherInterrupt
-               bindin = Super, mouse:273, global, caelestia:launcherInterrupt
-               bindin = Super, mouse:274, global, caelestia:launcherInterrupt
-               bindin = Super, mouse:275, global, caelestia:launcherInterrupt
-               bindin = Super, mouse:276, global, caelestia:launcherInterrupt
-               bindin = Super, mouse:277, global, caelestia:launcherInterrupt
-               bindin = Super, mouse_up, global, caelestia:launcherInterrupt
-               bindin = Super, mouse_down, global, caelestia:launcherInterrupt
+               bindr = $mainMod, space, exec, caelestia shell drawers toggle launcher
 
                # Move focus with mainMod + arrow keys
                bind = $mainMod, left, movefocus, l

@@ -35,7 +35,37 @@
 
       hardware.graphics.enable = mkDefault true;
 
-      nixpkgs.overlays = [ inputs.millennium.overlays.default ];
+      # Upstream's `millennium-typescript-bun-deps` pins a stale `outputHash`;
+      # `bun install` produces a different hash and the fixed-output derivation
+      # fails. The bad hash lives in a let-binding inside millennium.nix, so it
+      # can't be reached via `overrideAttrs` - patch the file at eval time and
+      # callPackage the patched copy. Drop once upstream bumps the hash.
+      nixpkgs.overlays = [
+        inputs.millennium.overlays.default
+        (
+          final: prev:
+          let
+            millenniumPkgDir = inputs.millennium.outPath;
+            patchedMillennium = builtins.toFile "millennium.nix" (
+              builtins.replaceStrings
+                [ "sha256-XMYpHMrcmLNQYyLkc3DngjsZ4DdyPr9on0v5lcDrRiY=" ]
+                [ "sha256-iw3F0LK+qCKGdkjLoOJw69TCkpEYBHlAqchg0uLK494=" ]
+                (builtins.readFile (millenniumPkgDir + "/millennium.nix"))
+            );
+            millennium = prev.callPackage patchedMillennium {
+              inputs = {
+                luajit-src = inputs.millennium.inputs.luajit-src;
+              };
+              millennium-src = inputs.millennium.inputs.millennium-src;
+            };
+          in
+          {
+            millennium-steam = prev.callPackage (millenniumPkgDir + "/steam.nix") {
+              inherit millennium;
+            };
+          }
+        )
+      ];
 
       programs = {
         gamemode.enable = true;

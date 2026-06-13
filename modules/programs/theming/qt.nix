@@ -35,7 +35,7 @@
 
       environment.variables = {
         QT_QPA_PLATFORMTHEME = lib.mkForce "qt6ct";
-        QT_STYLE_OVERRIDE = "kvantum";
+        # QT_STYLE_OVERRIDE = "kvantum";
       };
 
       # Tell Kvantum which actual theme to render. Without this file Kvantum
