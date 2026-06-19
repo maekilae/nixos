@@ -22,6 +22,7 @@
         dev
         filebrowser
         cad
+        editor
         # desktopEnv
         # editor
       ];

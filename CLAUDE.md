@@ -69,3 +69,6 @@ To update, rebuild, switch, or other use ./update.sh script
 
 ./update.sh -i to rebuild switch
 ./update.sh -i -u to update inputs and rebuild, switch
+
+## External Packages ##
+External packages packaged by me are (should be placed) in /home/marcus/Dev/anynix-flake

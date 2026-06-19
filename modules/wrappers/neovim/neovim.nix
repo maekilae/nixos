@@ -62,6 +62,8 @@ in
 
         pkgs.ripgrep
         pkgs.fd
+
+        inputs.anynix.packages.${pkgs.stdenv.hostPlatform.system}.shell-color-scripts
       ];
 
       config.specs =
@@ -341,7 +343,7 @@ in
                     {
                       pane = 2,
                       section = "terminal",
-                      cmd = "/usr/local/bin/colorscript -e square",
+                      cmd = "colorscript -e square",
                       height = 5,
                       padding = 1,
                     },
@@ -406,7 +408,6 @@ in
                         }, cmd)
                       end, cmds)
                     end,
-                    { section = "startup" },
                   },
                 },
               })

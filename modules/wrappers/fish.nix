@@ -12,20 +12,15 @@
     }:
     {
       packages.fish =
+        let
+          common = self.shellCommon { inherit pkgs lib; };
+        in
         (self.wrapperModules.fish.apply {
           inherit pkgs;
-          variables = {
-            EDITOR = lib.getExe pkgs.neovim;
+          variables = common.variables // {
             fish_greeting = "";
           };
-          aliases = {
-            ls = "${lib.getExe pkgs.eza} -l --icons";
-            cat = lib.getExe' pkgs.bat "bat"; # Remember the getExe trick!
-            cd = "z";
-            nv = "${lib.getExe pkgs.neovim}";
-            zz = "${lib.getExe pkgs.zed-editor} ./";
-            rg = "${lib.getExe pkgs.ripgrep} --hidden";
-          };
+          aliases = common.aliases;
           interactiveShellInit = # fish
             ''
               function fish_prompt --description 'Write out the prompt'
