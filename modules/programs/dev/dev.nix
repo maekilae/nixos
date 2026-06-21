@@ -29,6 +29,7 @@
               alejandra
               nil
               nixd
+              go
             ];
             programs.direnv.enable = true;
           }

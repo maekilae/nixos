@@ -12,12 +12,20 @@
         alejandra
         (vscode-with-extensions.override {
           vscodeExtensions = with vscode-extensions; [
-            jnoortheen.nix-ide
-            ms-python.python
             ms-azuretools.vscode-docker
             ms-vscode-remote.remote-ssh
 
             anthropic.claude-code
+
+            vscodevim.vim
+            pkief.material-icon-theme
+            github.github-vscode-theme
+
+            ms-vscode.cpptools
+            jnoortheen.nix-ide
+            ms-python.python
+            golang.go
+	tboby.cwtools-vscode
           ];
         })
       ];
