@@ -11,11 +11,14 @@
       systemdGc
       bluetooth
       firmware
+      secrets
     ];
     networking = {
       hostName = "callisto";
       networkmanager.enable = true;
     };
+
+    age.rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHu9khzqPFNK3V18UlVYeM3sq1LNINcMYQA/7IP/2Cms root@callisto";
     nixpkgs.config.allowUnfree = lib.mkForce true;
 
     modules.firmware.amd.enable = true;

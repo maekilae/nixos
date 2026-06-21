@@ -5,19 +5,25 @@
 {
   # age-encrypted secrets for NixOS / Darwin and Home Manager
   # https://github.com/ryantm/agenix
+  # https://github.com/oddlama/agenix-rekey
 
   flake-file.inputs = {
     agenix = {
       url = "github:ryantm/agenix";
-      # url = "github:yaxitech/ragenix"; # rust drop-in replacment
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
+    };
+    agenix-rekey = {
+      url = "github:oddlama/agenix-rekey";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     secrets = {
       url = "path:./secrets";
       flake = false;
-      # It's also possible to directly depend on a local Git repository.
-      # git-directory-example.url = "git+file:/path/to/repo?shallow=1";
     };
   };
+
+  imports = [
+    inputs.agenix-rekey.flakeModule
+  ];
 }

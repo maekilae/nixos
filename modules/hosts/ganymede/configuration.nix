@@ -10,12 +10,16 @@
       systemdGc
       bluetooth
       firmware
+      secrets
     ];
     networking = {
       hostName = "ganymede";
       networkmanager.enable = true;
     };
     nixpkgs.config.allowUnfree = lib.mkForce true;
+
+    # TODO: replace with the contents of /etc/ssh/ssh_host_ed25519_key.pub on this host
+    age.rekey.hostPubkey = "ssh-ed25519 AAAA_REPLACE_ME_GANYMEDE";
 
     # modules.firmware.amd.enable = true;
     nix = {
