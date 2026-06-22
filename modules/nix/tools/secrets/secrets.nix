@@ -1,5 +1,6 @@
 {
   inputs,
+  withSystem,
   ...
 }:
 let
@@ -7,15 +8,25 @@ let
     { config, lib, ... }:
     {
       age.rekey = {
-        masterIdentities = [ ../../../../secrets/master.pub ];
+        masterIdentities = [
+          {
+            identity = "/home/marcus/.config/agenix-rekey/master.age";
+            pubkey = lib.fileContents ../../../../secrets/master.pub;
+          }
+        ];
         storageMode = "local";
-        localStorageDir = lib.mkDefault (
-          ../../../../secrets/rekeyed + "/${config.networking.hostName}"
-        );
+        localStorageDir = lib.mkDefault (../../../../secrets + "/${config.networking.hostName}");
       };
     };
+  agenixWrapperFor =
+    system: withSystem system ({ config, ... }: config.agenix-rekey.package);
 in
 {
+  perSystem = _: {
+    # No active home-manager configurations yet — skip the dormant mkHome placeholder
+    agenix-rekey.homeConfigurations = { };
+  };
+
   flake.modules.nixos.secrets =
     { pkgs, ... }:
     {
@@ -25,8 +36,7 @@ in
         rekeySharedSettings
       ];
       environment.systemPackages = [
-        inputs.agenix.packages.${pkgs.stdenv.hostPlatform.system}.default
-        inputs.agenix-rekey.packages.${pkgs.stdenv.hostPlatform.system}.default
+        (agenixWrapperFor pkgs.stdenv.hostPlatform.system)
       ];
     };
 
@@ -39,8 +49,7 @@ in
         rekeySharedSettings
       ];
       environment.systemPackages = [
-        inputs.agenix.packages.${pkgs.stdenv.hostPlatform.system}.default
-        inputs.agenix-rekey.packages.${pkgs.stdenv.hostPlatform.system}.default
+        (agenixWrapperFor pkgs.stdenv.hostPlatform.system)
       ];
     };
 

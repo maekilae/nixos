@@ -63,6 +63,9 @@ in
         pkgs.ripgrep
         pkgs.fd
 
+        # AI backend for the `99` plugin (ClaudeCodeProvider shells out to `claude`)
+        pkgs.claude-code
+
         inputs.anynix.packages.${pkgs.stdenv.hostPlatform.system}.shell-color-scripts
       ];
 
@@ -434,6 +437,39 @@ in
               k("n", "gr",         function() Snacks.picker.lsp_references() end,                          { nowait = true, desc = "References" })
               k("n", "gI",         function() Snacks.picker.lsp_implementations() end,                     { desc = "Goto Implementation" })
               k("n", "gy",         function() Snacks.picker.lsp_type_definitions() end,                    { desc = "Goto T[y]pe Definition" })
+            '';
+          };
+
+          plenary.data = p.plenary-nvim;
+
+          codecompanion = {
+            data = p.codecompanion-nvim;
+            config = ''
+              require("codecompanion").setup({})
+            '';
+          };
+
+          "99" = {
+            data = pkgs.vimUtils.buildVimPlugin {
+              pname = "99";
+              version = "unstable-2026-06-22";
+              src = pkgs.fetchFromGitHub {
+                owner = "ThePrimeagen";
+                repo = "99";
+                rev = "c17422457027c913c76c75a921fca1e623d2678e";
+                hash = "sha256-iilpiG81kHIv7Y0qvPzZOanNA0lsPotlB18cvtmTy0o=";
+              };
+              # Loads fine in real use, but the isolated require-check has no LSP plugin available
+              nvimSkipModule = [ "99.editor.lsp" ];
+            };
+            config = ''
+              local _99 = require("99")
+              _99.setup({
+                provider = _99.Providers.ClaudeCodeProvider,
+              })
+              vim.keymap.set("v", "<leader>9v", function() _99.visual() end,            { desc = "99 visual replace" })
+              vim.keymap.set("n", "<leader>9s", function() _99.search() end,            { desc = "99 search" })
+              vim.keymap.set("n", "<leader>9x", function() _99.stop_all_requests() end, { desc = "99 stop all" })
             '';
           };
         };

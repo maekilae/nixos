@@ -49,7 +49,7 @@
             patchedMillennium = builtins.toFile "millennium.nix" (
               builtins.replaceStrings
                 [ "sha256-XMYpHMrcmLNQYyLkc3DngjsZ4DdyPr9on0v5lcDrRiY=" ]
-                [ "sha256-iw3F0LK+qCKGdkjLoOJw69TCkpEYBHlAqchg0uLK494=" ]
+                [ "sha256-KDzbqRN1aobT5wMJI+P03i5hMzWCZv51mxRSpbVm4KI=" ]
                 (builtins.readFile (millenniumPkgDir + "/millennium.nix"))
             );
             millennium = prev.callPackage patchedMillennium {
@@ -83,7 +83,7 @@
           remotePlay.openFirewall = true;
           dedicatedServer.openFirewall = true;
           localNetworkGameTransfers.openFirewall = true;
-          package = pkgs.millennium-steam;
+          # package = pkgs.millennium-steam;
         };
       };
 
