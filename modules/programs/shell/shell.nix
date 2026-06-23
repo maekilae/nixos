@@ -16,13 +16,15 @@ let
       programs.zsh = {
         enable = true;
         enableCompletion = true;
-        shellAliases = common.aliases;
         interactiveShellInit = ''
           eval "$(${lib.getExe pkgs.zoxide} init zsh)"
           eval "$(direnv hook zsh)"
         '';
       };
 
+      # `environment.shellAliases` works on both NixOS and nix-darwin, unlike
+      # `programs.zsh.shellAliases` (NixOS-only).
+      environment.shellAliases = common.aliases;
       environment.variables = common.variables;
 
       environment.systemPackages = [

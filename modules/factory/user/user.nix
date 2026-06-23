@@ -1,5 +1,6 @@
 {
   self,
+  inputs,
   ...
 }:
 {
@@ -28,6 +29,10 @@
     darwin."${username}" =
       { lib, pkgs, ... }:
       {
+        imports = [
+          inputs.home-manager.darwinModules.home-manager
+        ];
+
         users.users."${username}" = {
           home = "/Users/${username}";
           shell = pkgs.zsh;

@@ -9,9 +9,14 @@ are no manual import lists in `flake.nix` — adding a file *is* wiring it in.
 
 ### The dendritic pattern
 
-- `flake.nix` is **generated** by [flake-file](https://github.com/vic/flake-file) —
-  do not hand-edit it. Its body is `inputs.import-tree ./modules`, so every `.nix`
-  file in `modules/` is loaded as a flake-parts module.
+- `flake.nix` wires the inputs and the body `inputs.import-tree ./modules`, so every
+  `.nix` file in `modules/` is loaded as a flake-parts module. [flake-file](https://github.com/vic/flake-file)
+  *can* generate it from `flake-file.inputs` declarations, **but the repo is only
+  partially migrated**: most inputs live directly in `flake.nix` and are *not* declared
+  in any module. Running `nix run .#write-flake` today regenerates `flake.nix` from the
+  module declarations alone and **drops every hand-maintained input** — so don't run it.
+  Add new inputs directly to the `inputs = { … }` block in `flake.nix` (see
+  [Adding things](#adding-things)).
 - Each module is a function `{ inputs, lib, self, config, ... }: { ... }`. Instead
   of producing a host config directly, modules contribute **named, reusable module
   fragments** to the flake:
@@ -162,10 +167,12 @@ and set `age.rekey.hostPubkey`.
 - **New host:** create `modules/hosts/<host>/` with `configuration.nix` (host
   fragment importing a system type + settings) and `flake-parts.nix` (calls
   `mkNixos`/`mkDarwin`).
-- **New flake input:** add a `flake-file.inputs = { … };` block in the relevant
-  module (tool modules under `modules/nix/tools/` are the usual home), then
-  **regenerate** `flake.nix` with `nix run .#write-flake`. Never edit `flake.nix`
-  directly.
+- **New flake input:** add it directly to the `inputs = { … }` block in `flake.nix`.
+  Do **not** run `nix run .#write-flake` — flake.nix is not fully generated yet, and
+  write-flake would drop the inputs that are maintained there by hand. (Tool modules
+  under `modules/nix/tools/` also mirror their inputs in `flake-file.inputs` blocks for
+  an eventual full migration; you may add one for symmetry, but flake.nix is the source
+  of truth for now.)
 
 ## Building
 

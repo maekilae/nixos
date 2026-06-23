@@ -85,22 +85,49 @@ if [ "$UPGRADE" = true ]; then
 fi
 
 # Build the system
-REBUILD_ARGS="${BUILD_CMD} --flake .#${HOSTNAME}"
-if [ "$IMPURE" = true ]; then
-    REBUILD_ARGS="${REBUILD_ARGS} --impure"
-    print_warn "Building with --impure flag"
-fi
+if [ "$(uname -s)" = "Darwin" ]; then
+    # nix-darwin: only `switch` is meaningful; boot/test are NixOS-only.
+    DARWIN_CMD="$BUILD_CMD"
+    if [ "$BUILD_CMD" = "boot" ] || [ "$BUILD_CMD" = "test" ]; then
+        print_warn "'${BUILD_CMD}' is not supported on Darwin; using 'switch' instead"
+        DARWIN_CMD="switch"
+    fi
 
-print_step "Rebuilding NixOS configuration (${BUILD_CMD})..."
-sudo nixos-rebuild ${REBUILD_ARGS}
+    REBUILD_ARGS="${DARWIN_CMD} --flake .#${HOSTNAME}"
+    if [ "$IMPURE" = true ]; then
+        REBUILD_ARGS="${REBUILD_ARGS} --impure"
+        print_warn "Building with --impure flag"
+    fi
 
-echo ""
-print_info "Build completed successfully!"
+    print_step "Rebuilding nix-darwin configuration (${DARWIN_CMD})..."
+    if command -v darwin-rebuild > /dev/null 2>&1; then
+        sudo darwin-rebuild ${REBUILD_ARGS}
+    else
+        print_warn "darwin-rebuild not found — bootstrapping nix-darwin for the first time"
+        sudo nix run nix-darwin -- ${REBUILD_ARGS}
+    fi
 
-if [ "$BUILD_CMD" = "boot" ]; then
-    print_warn "Changes will take effect on next boot."
-elif [ "$BUILD_CMD" = "test" ]; then
-    print_warn "Changes are temporary and will revert on reboot."
+    echo ""
+    print_info "Build completed successfully!"
+    print_warn "You may need to open a new shell for all changes to take effect."
 else
-    print_warn "You may need to log out and back in for all changes to take effect."
+    REBUILD_ARGS="${BUILD_CMD} --flake .#${HOSTNAME}"
+    if [ "$IMPURE" = true ]; then
+        REBUILD_ARGS="${REBUILD_ARGS} --impure"
+        print_warn "Building with --impure flag"
+    fi
+
+    print_step "Rebuilding NixOS configuration (${BUILD_CMD})..."
+    sudo nixos-rebuild ${REBUILD_ARGS}
+
+    echo ""
+    print_info "Build completed successfully!"
+
+    if [ "$BUILD_CMD" = "boot" ]; then
+        print_warn "Changes will take effect on next boot."
+    elif [ "$BUILD_CMD" = "test" ]; then
+        print_warn "Changes are temporary and will revert on reboot."
+    else
+        print_warn "You may need to log out and back in for all changes to take effect."
+    fi
 fi
