@@ -6,7 +6,8 @@
 {
   # Development workstation system type — currently darwin-only.
   # Geared toward a macOS dev box: shell, editor, and dev tooling,
-  # no browsers, compositor, gaming, or other graphical applications.
+  # no browsers, compositor, gaming, or other graphical applications
+  # due to issues with nix on non nixOS systems.
 
   flake.modules.darwin.systemDev = {
     imports = with inputs.self.modules.darwin; [
