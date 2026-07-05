@@ -16,6 +16,7 @@
       imports = with inputs.self.modules.nixos; [
         # system base
         shell
+        fish
         tailscale
         cli
 

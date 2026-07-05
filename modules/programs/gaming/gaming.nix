@@ -25,8 +25,7 @@
       '';
     in
     {
-      imports = [ inputs.hjem.nixosModules.default ];
-
+      # Hjem is imported once per system by mkNixos; here we only set options.
       # User-level XDG override (wins over the programs.steam system entry).
       hjem.users.marcus.files.".local/share/applications/steam.desktop" = {
         source = steamLauncherEntry;

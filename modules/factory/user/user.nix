@@ -24,33 +24,28 @@
         };
         programs.zsh.enable = true;
 
+        # Home directory / dotfiles via Hjem (not Home Manager). The Hjem module
+        # is imported once per system by mkNixos; here we just enable this user.
+        hjem.users."${username}".enable = true;
       };
 
     darwin."${username}" =
       { lib, pkgs, ... }:
       {
-        imports = [
-          inputs.home-manager.darwinModules.home-manager
-        ];
-
         users.users."${username}" = {
           home = "/Users/${username}";
           shell = pkgs.zsh;
         };
 
-        home-manager.users."${username}" = {
-          imports = [
-            self.modules.homeManager."${username}"
-          ];
-        };
+        # Home directory / dotfiles via Hjem (not Home Manager). The Hjem module
+        # itself is imported once per system by mkDarwin; here we just enable this
+        # user. `directory` and `user` are derived from users.users."${username}".
+        # Per-user files/packages/env go under `hjem.users."${username}"`.
+        hjem.users."${username}".enable = true;
 
         system.primaryUser = lib.mkIf isAdmin "${username}";
 
         programs.zsh.enable = true;
       };
-
-    homeManager."${username}" = {
-      home.username = "${username}";
-    };
   };
 }

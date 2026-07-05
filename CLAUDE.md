@@ -22,9 +22,12 @@ are no manual import lists in `flake.nix` — adding a file *is* wiring it in.
   fragments** to the flake:
   - `flake.modules.nixos.<name>` — a NixOS module
   - `flake.modules.darwin.<name>` — a nix-darwin module
-  - `flake.modules.homeManager.<name>` — a Home Manager module
   - `flake.modules.generic.<name>` — module usable across classes
   - `perSystem.packages.<name>` — a package (wrappers, custom builds)
+
+  There is **no Home Manager** — per-user home/dotfile config is done with **Hjem**
+  (see [Home directories](#home-directories-hjem)), configured *inside* the nixos/darwin
+  fragments via `hjem.users.<user>`, not as a separate module class.
 - **Fragments merge by name.** Several files may each define
   `flake.modules.nixos.callisto`; the module system merges them. This is why hosts
   are split into `configuration.nix`, `users/*.nix`, etc. — all targeting the same
@@ -43,7 +46,7 @@ that must be instantiated per-argument (a user, a mount, …). See
 
 ```nix
 # definition — modules/factory/user/user.nix
-config.flake.factory.user = username: isAdmin: { nixos.${username} = …; darwin.… ; homeManager.… };
+config.flake.factory.user = username: isAdmin: { nixos.${username} = …; darwin.${username} = …; };
 
 # use — modules/users/marcus/marcus.nix
 flake.modules = lib.mkMerge [ (self.factory.user "marcus" true) { … } ];
@@ -51,7 +54,7 @@ flake.modules = lib.mkMerge [ (self.factory.user "marcus" true) { … } ];
 
 ### Host assembly helpers
 
-`flake.lib.{mkNixos,mkDarwin,mkHome}` (in [modules/nix/flake-parts/lib.nix](modules/nix/flake-parts/lib.nix))
+`flake.lib.{mkNixos,mkDarwin}` (in [modules/nix/flake-parts/lib.nix](modules/nix/flake-parts/lib.nix))
 turn a named module fragment into a real system. A host's `flake-parts.nix` calls
 them:
 
@@ -76,7 +79,7 @@ modules/
     flake-parts/        Dendritic plumbing: lib (mkNixos/…), factory + wrapper +
                         darwin + shellCommon option declarations, dendritic-tools setup.
     tools/<tool>/       One dir per nix tool (secrets, pkgs-by-name, impermanence,
-                        homebrew, determinate). Each has:
+                        homebrew, determinate, hjem). Each has:
                           flake-parts.nix  — declares inputs via `flake-file.inputs`,
                                              imports the tool's flake module(s)
                           <tool>.nix       — the actual module fragment(s)
@@ -84,7 +87,8 @@ modules/
   hosts/<host>/         Per-machine config. configuration.nix (defines the host's
                         nixos fragment), flake-parts.nix (registers the system via
                         mkNixos), hardware.nix, users/<user>.nix.
-  users/<user>/         User fragments: <user>.nix + flake-parts.nix (home configs).
+  users/<user>/         User fragments: <user>.nix (adds groups + Hjem home config
+                        on top of factory.user).
   programs/<category>/  Program categories (browser, cli, dev, editor, media, …).
                         A category master file (e.g. browser.nix) imports the
                         per-program files in its folder (helium.nix, vivaldi.nix).
@@ -136,7 +140,8 @@ Each wrapper produces a `perSystem.packages.<name>` (e.g. `git`, `neovim`,
 `caelestia`). Flat (`<wrapper>.nix`) unless it ships external config files, then a
 folder (`neovim/`, `quickshell/`). Shared shell aliases/vars live in
 [shell-common.nix](modules/wrappers/shell-common.nix) (`flake.shellCommon`),
-consumed by the fish/zsh/bash wrappers.
+consumed by the zsh/bash wrappers and the Hjem-managed fish config (see
+[Home directories](#home-directories-hjem)).
 
 The neovim wrapper supports a `test_mode`/`devMode` that reads the live on-disk Lua
 config under `modules/wrappers/neovim/` for fast iteration without a rebuild.
@@ -150,6 +155,33 @@ config under `modules/wrappers/neovim/` for fast iteration without a rebuild.
   `git+https://codeberg.org/makila/anynix`. Use `inputs.anynix.packages.<system>.<pkg>`
   for packages and `anynix.program.<name>` / `inputs.anynix.default` for its modules.
   Package new external/proprietary apps there, not here.
+
+## Home directories (Hjem)
+
+**Do not use Home Manager.** Per-user home directories, dotfiles, and per-user
+packages are managed with [Hjem](https://github.com/feel-co/hjem), wired via the
+`hjem` tool fragment ([modules/nix/tools/hjem/](modules/nix/tools/hjem)).
+
+- Hjem's module is **not safe to import more than once**, so it is imported once per
+  system by `mkNixos`/`mkDarwin` (both classes); `factory.user` then only enables
+  `hjem.users.<user>` (its `directory`/`user` are derived from `users.users.<user>`).
+  Fragments (e.g. `fish`) only *set* `hjem.*` options — they must never import Hjem.
+- Shared shell config: fish is Hjem-managed on **both** NixOS and darwin —
+  [modules/programs/shell/fish.nix](modules/programs/shell/fish.nix) writes
+  `~/.config/fish/config.fish` (from `shellCommon`) into every Hjem user via
+  `hjem.extraModules`, with a plain `programs.fish` (no wrapped fish package). Both
+  `systemDesktop` and `systemDev` import the `fish` fragment.
+- Add home config *inside* a nixos/darwin fragment (there is no separate home class):
+  ```nix
+  hjem.users.marcus = {
+    packages = with pkgs; [ ripgrep fd ];
+    files.".config/foo".text = "hello";
+    environment.sessionVariables.EDITOR = "nvim";
+  };
+  ```
+- On darwin, Hjem links files/apps via launchd user agents (no systemd); its default
+  `smfh` linker works cross-platform. `system.primaryUser` must be set — `factory.user`
+  sets it for admin users.
 
 ## Secrets
 

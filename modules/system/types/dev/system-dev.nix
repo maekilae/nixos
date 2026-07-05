@@ -22,6 +22,7 @@
       cli
       dev
       nvim
+      fish
     ];
 
     time.timeZone = "Europe/Stockholm";

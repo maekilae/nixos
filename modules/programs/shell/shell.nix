@@ -27,8 +27,10 @@ let
       environment.shellAliases = common.aliases;
       environment.variables = common.variables;
 
+      # fish is handled separately (see fish.nix): on both platforms its config is
+      # written to ~/.config/fish/config.fish via Hjem with a plain programs.fish,
+      # so no wrapped fish is installed here.
       environment.systemPackages = [
-        selfpkgs.fish
         selfpkgs.zsh
         selfpkgs.bash
       ];

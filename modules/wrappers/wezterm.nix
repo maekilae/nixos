@@ -12,9 +12,6 @@
       pkgs,
       ...
     }:
-    let
-      selfpkgs = self.packages."${pkgs.stdenv.hostPlatform.system}";
-    in
     {
       # packages.wezterm = self'.packages.wezterm;
       packages.wezterm =
@@ -31,7 +28,7 @@
             fontWeight = "Bold";
           };
           extraConfig = ''
-            config.default_prog = { '${lib.getExe selfpkgs.fish}', '-l' }
+            config.default_prog = { '${lib.getExe pkgs.fish}', '-l' }
             config.term = "xterm-256color"
             config.colors = vague.colors()
             config.window_frame = vague.window_frame()

@@ -13,13 +13,13 @@
       darwin.marcusmakila = {
         imports = with self.modules.darwin; [
         ];
-      };
 
-      homeManager.marcusmakila = {
-        home.stateVersion = "26.05";
-        # home-manager follows `nixpkgs` (unstable) while the darwin system uses
-        # `nixpkgs-darwin`; the version mismatch is benign here, so silence the check.
-        home.enableNixpkgsReleaseCheck = false;
+        # Per-user home config is managed by Hjem (factory.user enables it).
+        # Add files / packages / env here, e.g.:
+        #   hjem.users.marcusmakila.files.".config/foo".text = "hello";
+        #   hjem.users.marcusmakila.environment.sessionVariables.EDITOR = "nvim";
+        # For packages, take `{ pkgs, ... }:` above and set:
+        #   hjem.users.marcusmakila.packages = with pkgs; [ ripgrep fd ];
       };
     }
   ];

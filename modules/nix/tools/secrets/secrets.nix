@@ -23,7 +23,8 @@ let
 in
 {
   perSystem = _: {
-    # No active home-manager configurations yet — skip the dormant mkHome placeholder
+    # This repo has no Home Manager configs (home is managed by Hjem), so there
+    # are no home-level secrets for agenix-rekey to rekey.
     agenix-rekey.homeConfigurations = { };
   };
 
@@ -50,14 +51,6 @@ in
       ];
       environment.systemPackages = [
         (agenixWrapperFor pkgs.stdenv.hostPlatform.system)
-      ];
-    };
-
-  flake.modules.homeManager.secrets =
-    { ... }:
-    {
-      imports = [
-        inputs.agenix.homeManagerModules.default
       ];
     };
 }
