@@ -16,10 +16,10 @@
           color_scheme = "materia-kde-theme";
           icon_theme = "Flat-Remix-Blue-Light";
           style = "kvantum-dark";
-          font_fixed = "JetBrains Mono";
-          font_fixed_size = 11;
-          font = "Inter";
-          font_size = 11;
+          font_fixed = self.lib.fonts.monospace.family;
+          font_fixed_size = self.lib.fonts.sizes.ui;
+          font = self.lib.fonts.sans.family;
+          font_size = self.lib.fonts.sizes.ui;
         }).wrapper;
     };
 

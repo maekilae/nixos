@@ -12,6 +12,11 @@
       pkgs,
       ...
     }:
+    let
+      t = self.lib.themes.vague;
+      p = i: builtins.elemAt t.palette i;
+      luaColorList = xs: "{ " + lib.concatMapStringsSep ", " (x: ''"${x}"'') xs + " }";
+    in
     {
       # packages.wezterm = self'.packages.wezterm;
       packages.wezterm =
@@ -23,8 +28,8 @@
               "tabline" = "https://github.com/michaelbrusegard/tabline.wez";
               "vague" = "https://github.com/maekilae/vague-wezterm";
             };
-            fontSize = 14.0;
-            fontFamily = "JetBrains Mono";
+            fontSize = self.lib.fonts.sizes.terminal;
+            fontFamily = self.lib.fonts.monospace.family;
             fontWeight = "Bold";
           };
           extraConfig = ''
@@ -117,51 +122,33 @@
                     icons_enabled = true,
                     theme_overrides = {
                         normal_mode = {
-                            a = { fg = "#141415", bg = "#7fa563" },
-                            b = { fg = "#7fa563", bg = "#252530" },
-                            c = { fg = "#cdcdcd", bg = "#141415" },
+                            a = { fg = "${t.bg}", bg = "${p 2}" },
+                            b = { fg = "${p 2}", bg = "${p 0}" },
+                            c = { fg = "${t.fg}", bg = "${t.bg}" },
                         },
                         copy_mode = {
-                            a = { fg = "#141415", bg = "#f3be7c" },
-                            b = { fg = "#f3be7c", bg = "#252530" },
-                            c = { fg = "#cdcdcd", bg = "#141415" },
+                            a = { fg = "${t.bg}", bg = "${p 3}" },
+                            b = { fg = "${p 3}", bg = "${p 0}" },
+                            c = { fg = "${t.fg}", bg = "${t.bg}" },
                         },
                         search_mode = {
-                            a = { fg = "#141415", bg = "#6e94b2" },
-                            b = { fg = "#6e94b2", bg = "#252530" },
-                            c = { fg = "#cdcdcd", bg = "#141415" },
+                            a = { fg = "${t.bg}", bg = "${p 4}" },
+                            b = { fg = "${p 4}", bg = "${p 0}" },
+                            c = { fg = "${t.fg}", bg = "${t.bg}" },
                         },
                         tab = {
-                            active = { fg = "#cdcdcd", bg = "#252530" },
-                            inactive = { fg = "#cdcdcd", bg = "#141415" },
-                            inactive_hover = { fg = "#bb9dbd", bg = "#252530" },
+                            active = { fg = "${t.fg}", bg = "${p 0}" },
+                            inactive = { fg = "${t.fg}", bg = "${t.bg}" },
+                            inactive_hover = { fg = "${p 5}", bg = "${p 0}" },
                         },
                         scheme = {
-                            foreground = "#cdcdcd",
-                            background = "#141415",
-                            cursor_fg = "#141415",
-                            cursor_bg = "#cdcdcd",
-                            cursor_border = "#cdcdcd",
-                            ansi = {
-                                "#252530",
-                                "#d8647e",
-                                "#7fa563",
-                                "#f3be7c",
-                                "#6e94b2",
-                                "#bb9dbd",
-                                "#aeaed1",
-                                "#cdcdcd",
-                            },
-                            brights = {
-                                "#606079",
-                                "#e08398",
-                                "#99b782",
-                                "#f5cb96",
-                                "#8ba9c1",
-                                "#c9b1ca",
-                                "#bebeda",
-                                "#d7d7d7",
-                            },
+                            foreground = "${t.fg}",
+                            background = "${t.bg}",
+                            cursor_fg = "${t.bg}",
+                            cursor_bg = "${t.fg}",
+                            cursor_border = "${t.fg}",
+                            ansi = ${luaColorList (lib.sublist 0 8 t.palette)},
+                            brights = ${luaColorList (lib.sublist 8 8 t.palette)},
                         },
                     },
                     section_separators = {
@@ -274,7 +261,7 @@
             };
           };
           fontSize = lib.mkOption {
-            type = lib.types.float;
+            type = lib.types.numbers.positive;
             default = 12.0;
             description = "The font size to use in Wezterm.";
           };

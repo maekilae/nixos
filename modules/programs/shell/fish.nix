@@ -70,7 +70,7 @@ let
     {
       programs.fish.enable = true;
       hjem.extraModules = [
-        { files.".config/fish/config.fish".text = mkConfigFish { inherit pkgs lib; }; }
+        { xdg.config.files."fish/config.fish".text = mkConfigFish { inherit pkgs lib; }; }
       ];
     };
 in

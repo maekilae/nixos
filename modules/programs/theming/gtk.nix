@@ -1,4 +1,9 @@
-{ lib, ... }:
+{ lib, self, ... }:
+let
+  fonts = self.lib.fonts;
+  sans = "${fonts.sans.family} ${toString fonts.sizes.ui}";
+  mono = "${fonts.monospace.family} ${toString fonts.sizes.ui}";
+in
 {
   flake.modules.nixos.gtk =
     { pkgs, ... }:
@@ -23,9 +28,9 @@
             cursor-theme = "Bibata-Modern-Classic";
             cursor-size = lib.gvariant.mkInt32 24;
 
-            font-name = "Inter 11";
-            document-font-name = "Inter 11";
-            monospace-font-name = "JetBrains Mono 11";
+            font-name = sans;
+            document-font-name = sans;
+            monospace-font-name = mono;
           };
         }
       ];
@@ -37,7 +42,7 @@
         gtk-icon-theme-name=Flat-Remix-Blue-Light
         gtk-cursor-theme-name=Bibata-Modern-Classic
         gtk-cursor-theme-size=24
-        gtk-font-name=Inter 11
+        gtk-font-name=${sans}
         gtk-application-prefer-dark-theme=true
       '';
 
@@ -49,7 +54,7 @@
         gtk-icon-theme-name=Flat-Remix-Blue-Light
         gtk-cursor-theme-name=Bibata-Modern-Classic
         gtk-cursor-theme-size=24
-        gtk-font-name=Inter 11
+        gtk-font-name=${sans}
         gtk-application-prefer-dark-theme=true
       '';
 

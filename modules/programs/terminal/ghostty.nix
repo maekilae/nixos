@@ -1,33 +1,28 @@
 {
   inputs,
+  self,
+  lib,
   ...
 }:
 let
-  # "vague" — the dark palette already used by this repo's wezterm + neovim, so
-  # Ghostty matches. (Swap `background`/`palette` for `theme = <name>` to use one
-  # of Ghostty's built-in themes instead.)
+  fonts = self.lib.fonts;
+  theme = self.lib.themes.vague;
+
+  # Ghostty wants bare hex for background/foreground/selection-* and `#hex`
+  # for palette entries. Strip the leading `#` for the former.
+  bare = h: lib.removePrefix "#" h;
+
+  paletteLines = lib.concatImapStringsSep "\n" (
+    i: hex: "palette = ${toString (i - 1)}=${hex}"
+  ) theme.palette;
+
   colors = ''
-    background = 141415
-    foreground = cdcdcd
-    cursor-color = cdcdcd
-    selection-background = 252530
-    selection-foreground = cdcdcd
-    palette = 0=#252530
-    palette = 1=#d8647e
-    palette = 2=#7fa563
-    palette = 3=#f3be7c
-    palette = 4=#6e94b2
-    palette = 5=#bb9dbd
-    palette = 6=#aeaed1
-    palette = 7=#cdcdcd
-    palette = 8=#606079
-    palette = 9=#e08398
-    palette = 10=#99b782
-    palette = 11=#f5cb96
-    palette = 12=#8ba9c1
-    palette = 13=#c9b1ca
-    palette = 14=#bebeda
-    palette = 15=#d7d7d7
+    background = ${bare theme.bg}
+    foreground = ${bare theme.fg}
+    cursor-color = ${bare theme.fg}
+    selection-background = ${bare (builtins.elemAt theme.palette 0)}
+    selection-foreground = ${bare theme.fg}
+    ${paletteLines}
   '';
 
   # Shared config.fish-driven Ghostty config. `pkgs` is used to pin the exact
@@ -43,8 +38,8 @@ let
       shell-integration = fish
 
       # Font
-      font-family = JetBrains Mono
-      font-size = 14
+      font-family = ${fonts.monospace.family}
+      font-size = ${toString fonts.sizes.terminal}
 
       # Cursor
       cursor-style = block
@@ -70,6 +65,16 @@ let
     macos-titlebar-style = tabs
     font-thicken = true
   '';
+
+  # Linux-only extras. Ghostty's systemd/D-Bus activation keeps the process
+  # warm so new windows open in ~20ms instead of ~300ms; the delay releases
+  # memory if no window has been open for 5 minutes.
+  # https://ghostty.org/docs/linux/systemd
+  linuxExtra = ''
+    # systemd/D-Bus activation
+    quit-after-last-window-closed = true
+    quit-after-last-window-closed-delay = 5m
+  '';
 in
 {
   # Ghostty terminal, installed + configured per-user via Hjem.
@@ -86,7 +91,10 @@ in
       hjem.extraModules = [
         {
           packages = [ pkgs.brewCasks.ghostty ];
-          files.".config/ghostty/config".text = mkConfig { inherit pkgs lib; } + darwinExtra;
+          xdg.config.files."ghostty/config" = {
+            text = mkConfig { inherit pkgs lib; } + darwinExtra;
+            clobber = true; # Overwrites existing unmanaged file
+          };
         }
       ];
     };
@@ -94,10 +102,17 @@ in
   flake.modules.nixos.ghostty =
     { pkgs, lib, ... }:
     {
+      # Register ghostty's user unit + D-Bus service and enable it at login.
+      systemd.packages = [ pkgs.ghostty ];
+      systemd.user.services."app-com.mitchellh.ghostty".wantedBy = [ "default.target" ];
+
       hjem.extraModules = [
         {
           packages = [ pkgs.ghostty ];
-          files.".config/ghostty/config".text = mkConfig { inherit pkgs lib; };
+          xdg.config.files."ghostty/config" = {
+            text = mkConfig { inherit pkgs lib; } + linuxExtra;
+            clobber = true; # Overwrites existing unmanaged file
+          };
         }
       ];
     };

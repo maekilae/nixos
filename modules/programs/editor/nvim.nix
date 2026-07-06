@@ -1,12 +1,12 @@
 { inputs, ... }:
 let
-  installNvim = { pkgs, ... }: {
+  nvim = { pkgs, ... }: {
     environment.systemPackages = [
-      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.neovimDynamic
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.neovim
     ];
   };
 in
 {
-  flake.modules.nixos.nvim = installNvim;
-  flake.modules.darwin.nvim = installNvim;
+  flake.modules.nixos.nvim = nvim;
+  flake.modules.darwin.nvim = nvim;
 }
