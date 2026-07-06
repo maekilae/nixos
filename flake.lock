@@ -227,6 +227,48 @@
         "url": "https://codeberg.org/LGFae/awww"
       }
     },
+    "brew-api": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783292349,
+        "narHash": "sha256-Hm90Jao/eGQf1IaKd4NRdMG8A8xVp/wgyPzLm64qlhc=",
+        "owner": "BatteredBunny",
+        "repo": "brew-api",
+        "rev": "58f2967d96dfad0dd3e263dec84a6df31b83aa80",
+        "type": "github"
+      },
+      "original": {
+        "owner": "BatteredBunny",
+        "repo": "brew-api",
+        "type": "github"
+      }
+    },
+    "brew-nix": {
+      "inputs": {
+        "brew-api": [
+          "brew-api"
+        ],
+        "nix-darwin": [
+          "nix-darwin"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1782887713,
+        "narHash": "sha256-PAKRRRdYX8xpx97RC/8+yyp8rieqh2bIRyoX+Od6OmQ=",
+        "owner": "BatteredBunny",
+        "repo": "brew-nix",
+        "rev": "660963f901ed34c4b7f3cff86c1efe5cd7d13c71",
+        "type": "github"
+      },
+      "original": {
+        "owner": "BatteredBunny",
+        "repo": "brew-nix",
+        "type": "github"
+      }
+    },
     "caelestia-cli": {
       "inputs": {
         "caelestia-shell": [
@@ -2739,6 +2781,8 @@
         "agenix-rekey": "agenix-rekey",
         "anynix": "anynix",
         "awww": "awww",
+        "brew-api": "brew-api",
+        "brew-nix": "brew-nix",
         "caelestia-cli": "caelestia-cli",
         "caelestia-shell": "caelestia-shell",
         "flake-file": "flake-file",

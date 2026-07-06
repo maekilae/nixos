@@ -26,6 +26,7 @@
         compositor
         browser
         terminal
+        ghostty
         gaming
         discord
         dev

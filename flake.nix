@@ -76,6 +76,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.caelestia-shell.follows = "caelestia-shell";
     };
+
+    # Homebrew casks packaged as Nix derivations (used for GUI apps on darwin).
+    brew-nix = {
+      url = "github:BatteredBunny/brew-nix";
+      inputs.nix-darwin.follows = "nix-darwin";
+      inputs.brew-api.follows = "brew-api";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    brew-api = {
+      url = "github:BatteredBunny/brew-api";
+      flake = false;
+    };
   };
 
 }

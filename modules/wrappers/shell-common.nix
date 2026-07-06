@@ -30,7 +30,6 @@
         lt = "${lib.getExe pkgs.eza} --tree --icons --git-ignore";
         ".." = "cd ..";
         "..." = "cd ../..";
-        "...." = "cd ../../..";
 
         g = "git";
         gs = "git status";

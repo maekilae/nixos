@@ -6,6 +6,7 @@
   flake.modules.darwin.europa = {
     imports = with inputs.self.modules.darwin; [
       systemDev
+      ghostty
     ];
 
     networking.hostName = "europa";
