@@ -142,7 +142,7 @@ in
                    new_status = master
                }
 
-               $mainMod = SUPER # Sets "Windows" key as main modifier
+               $mainMod = ${self.lib.shortcuts.os.modifier} # Main modifier (self.lib.shortcuts.os)
 
                # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
                exec=hyprctl dispatch submap global

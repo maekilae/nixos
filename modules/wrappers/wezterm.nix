@@ -49,7 +49,7 @@
                 right = padding * 1.5,
             }
 
-            config.leader = { key = "Space", mods = "CTRL", timeout_milliseconds = 2000 }
+            config.leader = { key = "${self.lib.shortcuts.multiplexer.key}", mods = "${self.lib.shortcuts.multiplexer.modifier}", timeout_milliseconds = ${toString self.lib.shortcuts.multiplexer.timeoutMs} }
             config.keys = {
                 {
                     key = "-",
