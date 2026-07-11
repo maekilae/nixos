@@ -8,12 +8,16 @@
     {
       pkgs,
       lib,
+      self',
       ...
     }:
     {
       packages.zsh =
         let
-          common = self.shellCommon { inherit pkgs lib; };
+          common = self.shellCommon {
+            inherit pkgs lib;
+            neovim = self'.packages.neovim;
+          };
         in
         (self.wrapperModules.zsh.apply {
           inherit pkgs;

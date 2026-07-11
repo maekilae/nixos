@@ -10,7 +10,10 @@ let
     }:
     let
       selfpkgs = self.packages."${pkgs.stdenv.hostPlatform.system}";
-      common = self.shellCommon { inherit pkgs lib; };
+      common = self.shellCommon {
+        inherit pkgs lib;
+        inherit (selfpkgs) neovim;
+      };
     in
     {
       programs.zsh = {
@@ -44,7 +47,11 @@ in
       ...
     }:
     let
-      common = self.shellCommon { inherit pkgs lib; };
+      selfpkgs = self.packages."${pkgs.stdenv.hostPlatform.system}";
+      common = self.shellCommon {
+        inherit pkgs lib;
+        inherit (selfpkgs) neovim;
+      };
     in
     {
       imports = [ zshAndCommon ];

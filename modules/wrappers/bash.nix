@@ -8,12 +8,16 @@
     {
       pkgs,
       lib,
+      self',
       ...
     }:
     {
       packages.bash =
         let
-          common = self.shellCommon { inherit pkgs lib; };
+          common = self.shellCommon {
+            inherit pkgs lib;
+            neovim = self'.packages.neovim;
+          };
         in
         (self.wrapperModules.bash.apply {
           inherit pkgs;

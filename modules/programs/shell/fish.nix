@@ -10,7 +10,10 @@ let
   mkConfigFish =
     { pkgs, lib }:
     let
-      common = self.shellCommon { inherit pkgs lib; };
+      common = self.shellCommon {
+        inherit pkgs lib;
+        neovim = self.packages.${pkgs.stdenv.hostPlatform.system}.neovim;
+      };
       esc = lib.replaceStrings [ "'" ] [ "\\'" ];
       aliasLines = lib.concatStringsSep "\n" (
         lib.mapAttrsToList (n: v: "alias ${n}='${esc v}'") common.aliases
@@ -70,7 +73,12 @@ let
     {
       programs.fish.enable = true;
       hjem.extraModules = [
-        { xdg.config.files."fish/config.fish".text = mkConfigFish { inherit pkgs lib; }; }
+        {
+          xdg.config.files."fish/config.fish" = {
+            text = mkConfigFish { inherit pkgs lib; };
+            clobber = true;
+          };
+        }
       ];
     };
 in

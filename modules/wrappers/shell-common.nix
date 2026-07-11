@@ -11,17 +11,17 @@
   };
 
   config.flake.shellCommon =
-    { pkgs, lib }:
+    { pkgs, lib, neovim }:
     {
       variables = {
-        EDITOR = lib.getExe pkgs.neovim;
+        EDITOR = lib.getExe neovim;
       };
 
       aliases = {
         ls = "${lib.getExe pkgs.eza} -l --icons";
         cat = lib.getExe' pkgs.bat "bat";
         cd = "z";
-        nv = "${lib.getExe pkgs.neovim}";
+        nv = "${lib.getExe neovim}";
         zz = "${lib.getExe pkgs.zed-editor} ./";
         rg = "${lib.getExe pkgs.ripgrep} --hidden";
 
