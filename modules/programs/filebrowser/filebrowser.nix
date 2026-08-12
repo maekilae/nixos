@@ -17,6 +17,8 @@
 
         kdePackages.ark
 
+        kdePackages.okular
+
         rpi-imager
         rpiboot
       ];

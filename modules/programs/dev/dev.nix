@@ -13,6 +13,13 @@ let
       nil
       nixd
       go
+      typst
+
+      rustc
+      cargo
+      rustfmt
+      clippy
+      rust-analyzer
     ];
     programs.direnv.enable = true;
   };
