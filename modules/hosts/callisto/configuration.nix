@@ -12,6 +12,7 @@
       bluetooth
       firmware
       secrets
+      kwallet
     ];
     networking = {
       hostName = "callisto";
@@ -27,6 +28,10 @@
         experimental-features = [
           "nix-command"
           "flakes"
+        ];
+        trusted-users = [
+          "root"
+          "@wheel"
         ];
         substituters = [ "https://hyprland.cachix.org" ];
         trusted-substituters = [ "https://hyprland.cachix.org" ];

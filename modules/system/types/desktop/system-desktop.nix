@@ -18,6 +18,7 @@
         shell
         fish
         tailscale
+        ssh
         cli
 
         # desktop program categories
