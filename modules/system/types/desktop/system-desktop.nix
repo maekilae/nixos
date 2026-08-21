@@ -25,6 +25,7 @@
         theming
         media
         compositor
+        desktopEnv
         browser
         terminal
         ghostty
