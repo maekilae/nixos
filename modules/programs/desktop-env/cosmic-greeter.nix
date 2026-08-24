@@ -1,4 +1,4 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.modules.nixos.cosmicGreeter =
     {
@@ -11,8 +11,23 @@
       cfg = config.modules.desktopEnv.cosmicGreeter;
     in
     {
+      imports = with inputs.self.modules.nixos; [
+        greeter
+      ];
+
       options.modules.desktopEnv.cosmicGreeter = {
-        enable = lib.mkEnableOption "COSMIC greeter (greetd-based login manager)";
+        enable = lib.mkEnableOption "the COSMIC greeter (greetd-based login manager)";
+
+        priority = lib.mkOption {
+          type = lib.types.int;
+          default = 60;
+          description = ''
+            Priority in the greeter election. Defaults above SDDM (50), so
+            enabling COSMIC hands it the login screen and drops every other
+            session's greeter. Lower it below
+            `modules.desktopEnv.hyprland.greeterPriority` to keep SDDM instead.
+          '';
+        };
 
         package = lib.mkOption {
           type = lib.types.package;
@@ -28,20 +43,25 @@
         };
       };
 
-      config = lib.mkIf cfg.enable {
-        services.displayManager.cosmic-greeter = {
-          enable = true;
-          package = cfg.package;
-        };
+      config = lib.mkMerge [
+        (lib.mkIf cfg.enable {
+          modules.desktopEnv.greeters.cosmic-greeter = {
+            enable = true;
+            priority = cfg.priority;
+          };
+        })
 
-        # cosmic-greeter drives greetd, which cannot share a seat with SDDM —
-        # the compositor fragment turns SDDM on, so take it back out here.
-        services.displayManager.sddm.enable = lib.mkForce false;
+        (lib.mkIf (config.modules.desktopEnv.activeGreeter == "cosmic-greeter") {
+          services.displayManager.cosmic-greeter = {
+            enable = true;
+            package = cfg.package;
+          };
 
-        # The greeter reads XCURSOR_THEME from greetd's environment, falling
-        # back to "Pop" when unset.
-        environment.sessionVariables.XCURSOR_THEME = lib.mkDefault cfg.cursorTheme;
-        environment.systemPackages = [ pkgs.bibata-cursors ];
-      };
+          # The greeter reads XCURSOR_THEME from greetd's environment, falling
+          # back to "Pop" when unset.
+          environment.sessionVariables.XCURSOR_THEME = lib.mkDefault cfg.cursorTheme;
+          environment.systemPackages = [ pkgs.bibata-cursors ];
+        })
+      ];
     };
 }

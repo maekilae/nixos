@@ -23,6 +23,7 @@
     nixpkgs.config.allowUnfree = lib.mkForce true;
 
     modules.firmware.amd.enable = true;
+    modules.tailscale.operator = "marcus";
     nix = {
       settings = {
         experimental-features = [

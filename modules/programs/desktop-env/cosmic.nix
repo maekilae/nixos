@@ -46,7 +46,9 @@
         environment.cosmic.excludePackages = cfg.excludePackages;
         environment.systemPackages = cfg.extraPackages;
 
-        # COSMIC ships its own greeter; a host can opt out and pick another one.
+        # COSMIC ships its own greeter, and it outranks the other sessions'
+        # greeters by default, so enabling COSMIC also switches the login
+        # screen. A host can lower its priority or opt out entirely.
         modules.desktopEnv.cosmicGreeter.enable = lib.mkDefault true;
 
         environment.sessionVariables.NIXOS_OZONE_WL = "1";

@@ -8,7 +8,7 @@
   # expansion of cli system for desktop use
 
   flake.modules.nixos.systemDesktop =
-    { pkgs, ... }:
+    { pkgs, lib, ... }:
     let
       selfpkgs = self.packages."${pkgs.stdenv.hostPlatform.system}";
     in
@@ -17,14 +17,15 @@
         # system base
         shell
         fish
+        keyboard
         tailscale
+        protonvpn
         ssh
         cli
 
         # desktop program categories
         theming
         media
-        compositor
         desktopEnv
         browser
         terminal
@@ -54,6 +55,13 @@
 
       services.upower.enable = true;
       security.polkit.enable = true;
+
+      # Session: Hyprland + caelestia. Hosts can add `modules.desktopEnv.cosmic.enable`
+      # alongside it, or turn this off to run COSMIC alone.
+      modules.desktopEnv.hyprland.enable = lib.mkDefault true;
+      modules.desktopEnv.cosmic.enable = true;
+
+      modules.tailscale.tray.enable = true;
 
       modules.dev.enable = true;
       modules.dev.zed.enable = true;

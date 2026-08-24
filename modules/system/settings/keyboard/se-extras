@@ -1,0 +1,14 @@
+default partial alphanumeric_keys
+xkb_symbols "se_extras" {
+    include "us(basic)"
+    name[Group1] = "English (US, Swedish letters)";
+
+    key <AC10> { type[Group1] = "FOUR_LEVEL_SEMIALPHABETIC",
+                 [ semicolon,   colon,     odiaeresis, Odiaeresis ] };
+    key <AC11> { type[Group1] = "FOUR_LEVEL_SEMIALPHABETIC",
+                 [ apostrophe,  quotedbl,  adiaeresis, Adiaeresis ] };
+    key <AD11> { type[Group1] = "FOUR_LEVEL_SEMIALPHABETIC",
+                 [ bracketleft, braceleft, aring,      Aring      ] };
+
+    include "level3(ralt_switch)"
+};

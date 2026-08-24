@@ -92,6 +92,11 @@
         gamescope
         mangohud
         heroic
+        bottles
+        # nixpkgs carries a single Proton build (proton-ge-bin, above). ProtonPlus
+        # fetches the rest - other GE releases, CachyOS, TKG - into
+        # ~/.steam/root/compatibilitytools.d, where Steam picks them up.
+        protonplus
         prismlauncher
         inputs.anynix.packages.${pkgs.stdenv.hostPlatform.system}.wowup
         azahar

@@ -5,6 +5,7 @@
       cider
       spotify
       vlc
+      qbittorrent
     ];
   };
 }
