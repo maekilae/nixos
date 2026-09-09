@@ -19,6 +19,7 @@
         fish
         keyboard
         tailscale
+        netbird
         protonvpn
         ssh
         cli
@@ -62,6 +63,7 @@
       modules.desktopEnv.cosmic.enable = true;
 
       modules.tailscale.tray.enable = true;
+      modules.netbird.tray.enable = true;
 
       modules.dev.enable = true;
       modules.dev.zed.enable = true;

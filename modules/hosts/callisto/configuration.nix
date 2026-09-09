@@ -24,6 +24,7 @@
 
     modules.firmware.amd.enable = true;
     modules.tailscale.operator = "marcus";
+    modules.netbird.operator = "marcus";
     nix = {
       settings = {
         experimental-features = [

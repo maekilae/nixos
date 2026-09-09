@@ -14,7 +14,6 @@
       packages.hypridle =
         (self.wrapperModules.hypridle.apply {
           inherit pkgs;
-          # package = lib.mkForce inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hypridle;
           package = lib.mkForce inputs.hypridle.packages.${pkgs.stdenv.hostPlatform.system}.hypridle;
 
           general = {

@@ -92,7 +92,7 @@
           };
           programs.hyprlock = {
             enable = true;
-            package = inputs.hyprwm.packages.${pkgs.stdenv.hostPlatform.system}.hyprlock;
+            package = inputs.hyprlock.packages.${pkgs.stdenv.hostPlatform.system}.hyprlock;
           };
 
           programs.hyprland = {
@@ -101,7 +101,7 @@
             withUWSM = true;
             xwayland.enable = true;
             portalPackage =
-              inputs.hyprwm.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+              inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
           };
         })
 

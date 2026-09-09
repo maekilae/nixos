@@ -60,7 +60,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hyprwm.url = "github:hyprwm/hyprnix";
+    # Upstream is migrating the hypr ecosystem from gcc15Stdenv to gcc16Stdenv.
+    # hyprwm/hyprnix currently pins a mix of both - its gcc16 hyprland links
+    # gcc15 hyprcursor/hyprgraphics - so it cannot build at all. The per-project
+    # flakes each pin a coherent set, so consume them directly. Deliberately no
+    # nixpkgs `follows`: these must build against their own pin to stay
+    # ABI-consistent (and to hit hyprland.cachix.org).
+    hyprland.url = "github:hyprwm/Hyprland";
+    hyprlock.url = "github:hyprwm/hyprlock";
     hypridle.url = "github:hyprwm/hypridle"; # TEMP
     hyprqt6engine.url = "github:hyprwm/hyprqt6engine";
     awww.url = "git+https://codeberg.org/LGFae/awww";
