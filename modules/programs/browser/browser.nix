@@ -35,6 +35,7 @@
     {
       imports = with inputs.self.modules.nixos; [
         vivaldi
+        orion
         helium
       ];
       # system.defaultApps.browser = "firefox";

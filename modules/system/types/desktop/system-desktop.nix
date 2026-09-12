@@ -69,6 +69,7 @@
       modules.dev.zed.enable = true;
       modules.browser.vivaldi.enable = false;
       modules.browser.helium.enable = true;
+      modules.browser.orion.enable = true;
 
       xdg.portal = {
         enable = true;
